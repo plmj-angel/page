@@ -9,6 +9,10 @@ let ignoredRolls = 0;
 let ignoredWoundRolls = 0;
 let woundRolls = [];
 function clickRollBtn() {
+    //reset for reclicks
+    ignoredRolls = 0;
+    ignoredWoundRolls = 0;
+    woundRolls = [];
     const pageValues = getValues(htmlIds);
     const totalRolls = getTotalRolls(+pageValues.models, +pageValues.attacks);
     const hitRolls = getHitRolls(totalRolls);
@@ -84,9 +88,7 @@ function getHitRolls(rollsAmmount) {
     return hitRolls;
 }
 function getWoundRollThresholds(hitRolls, str, tough) {
-    let woundThresholds = [];
-    for (let i = 0; i < hitRolls; i++) {
-        const rollResult = performRoll();
+    const woundThresholds = simulateRolls(hitRolls, (rollResult) => {
         woundRolls.push(rollResult);
         if (rollResult > 1) {
             let woundThreshold;
@@ -106,15 +108,16 @@ function getWoundRollThresholds(hitRolls, str, tough) {
                 woundThreshold = 6;
             }
             else {
-                throw new Error(`Error Calculating wound threshold roll. Roll number ${i + 1} with the value of ${rollResult}`);
+                throw new Error(`Error Calculating wound threshold roll. Roll with the value of ${rollResult}`);
             }
-            woundThresholds.push(woundThreshold);
+            return woundThreshold;
         }
         else { //TESTING ELSE BLOCK!
             ignoredWoundRolls++;
             console.log("rolled a 1 (wound roll)");
+            return null;
         }
-    }
+    });
     return woundThresholds;
 }
 //function getThirdRollFails(threshold: number, save: number) {
