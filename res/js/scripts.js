@@ -56,27 +56,37 @@ function writeToTestArea(dataObject, testAreaId) {
 function getTotalRolls(models, attacks) {
     return models * attacks;
 }
-function simulateRoll(dieSides = 6) {
+function performRoll(dieSides = 6) {
     return Math.floor(Math.random() * dieSides) + 1;
 }
+function simulateRolls(rollsAmount, rollCallback, dieSides = 6) {
+    const simulationResults = [];
+    for (let i = 0; i < rollsAmount; i++) {
+        const rollResult = performRoll(dieSides);
+        const result = rollCallback(rollResult);
+        if (result !== null) {
+            simulationResults.push(result);
+        }
+    }
+    return simulationResults;
+}
 function getHitRolls(rollsAmmount) {
-    let successfullRolls = [];
-    for (let i = 0; i < rollsAmmount; i++) {
-        const rollResult = simulateRoll();
+    const hitRolls = simulateRolls(rollsAmmount, (rollResult) => {
         if (rollResult > 1) {
-            successfullRolls.push(rollResult);
+            return rollResult;
         }
         else { //TESTING ELSE BLOCK!
             ignoredRolls++;
             console.log("rolled a 1");
+            return null;
         }
-    }
-    return successfullRolls;
+    });
+    return hitRolls;
 }
 function getWoundRollThresholds(hitRolls, str, tough) {
     let woundThresholds = [];
     for (let i = 0; i < hitRolls; i++) {
-        const rollResult = simulateRoll();
+        const rollResult = performRoll();
         woundRolls.push(rollResult);
         if (rollResult > 1) {
             let woundThreshold;
@@ -107,3 +117,4 @@ function getWoundRollThresholds(hitRolls, str, tough) {
     }
     return woundThresholds;
 }
+//function getThirdRollFails(threshold: number, save: number) {
