@@ -1,0 +1,164 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Armed Conflict Mallet 40,000</title>
+	<link href="res/styles.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="res/js/scripts.js"></script>
+</head>
+
+<body>
+	<div class="formbold-main-wrapper">
+		<div class="formbold-form-wrapper">
+
+			<img class="idk" src="res/idk.jpg">
+
+			<!--<form action="https://formbold.com/s/FORM_ID" method="POST">-->
+			<div class="formbold-form-title">
+				<h2 class="">Warhammer math stuffs</h2>
+				<p>
+					Work in progress. I don't really understand how Warhammer works yet. Something about 40 thousand
+					hammers? I wrote the functions, help me write the formulae
+				</p>
+			</div>
+
+			<div id="attackStats">
+				<h3>Attack Stats</h3>
+				<div class="formbold-input-flex">
+					<div>
+						<label for="models" class="formbold-form-label">
+							Models
+						</label>
+						<input type="text" type="text" id="models" value="1" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="attacks" class="formbold-form-label">
+							Attacks
+						</label>
+						<input type="text" type="text" id="attacks" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="skill" class="formbold-form-label">
+							BS/WS
+						</label>
+						<input type="text" type="text" id="skill" class="formbold-form-input stat">
+					</div>
+				</div>
+
+				<div class="formbold-input-flex">
+					<div>
+						<label for="str" class="formbold-form-label">
+							Strength
+						</label>
+						<input type="text" type="text" id="str" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="ap" class="formbold-form-label">
+							AP
+						</label>
+						<input type="text" type="text" id="ap" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="dmg" class="formbold-form-label">
+							Damage
+						</label>
+						<input type="text" type="text" id="dmg" class="formbold-form-input stat">
+					</div>
+				</div>
+				<div class="modifiers">
+					<h3>Attack Modifiers</h3>
+					<p><label>Wound Modifier: <input type="text" id="woundMod"></label>
+					</p>
+					<p>
+					<label><input type="checkbox" id="devastWound" value="1">Devastating Wounds</label>
+					</p>
+					<p><label>Critical Wound :<input type="text" id="woundCrit"></label>
+					</p>
+					<p>
+					Critical wound rolls:
+					<select id="woundRoll">
+						<option value="NONE">Have no other abilities</option>
+						<option value="mortal+1">Deal 1 mortal wound in addition to regular damage</option>
+					</select>
+					</p>
+					<p>
+					Wound Reroll:
+					<select id="woundReroll">
+						<option value="NONE">No wound rolls</option>
+						<option value="1">Wound rolls of 1</option>
+						<option value="fail">Failed wound rolls</option>
+						<option value="noncrit">Non-critical wound rolls</option>
+					</select>
+					</p>
+				</div>
+			</div>
+			
+			<div id="defenseStats">
+				<h3>Defense Stats</h3>
+				<div class="formbold-input-flex">
+					<div>
+						<label for="defModels" class="formbold-form-label">
+							Models
+						</label>
+						<input type="text" type="text" id="defModels" value="1" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="tough" class="formbold-form-label">
+							Toughness
+						</label>
+						<input type="text" type="text" id="tough" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="save" class="formbold-form-label">
+							Save
+						</label>
+						<input type="text" type="text" id="save" class="formbold-form-input stat">
+					</div>
+				</div>
+
+				<div class="formbold-input-flex">
+					<div>
+						<label for="invuln" class="formbold-form-label">
+							Invulnerable
+						</label>
+						<input type="text" type="text" id="invuln" class="formbold-form-input stat">
+					</div>
+					<div>
+						<label for="wounds" class="formbold-form-label">
+							Wounds
+						</label>
+						<input type="text" type="text" id="wounds" class="formbold-form-input stat">
+					</div>
+				</div>
+				<div class="modifiers">
+					<h3>Defenese Modifiers</h3>
+					<p><label>Save Modifier: <input type="text" id="saveMod"></label>
+					</p>
+					<p>
+					<label><input type="checkbox" id="cover" value="1">Cover</label>
+					</p>
+					<p>
+					Reroll: <select id="saveReroll">
+						<option value="">No save rolls</option>
+						<option value="1">Any save rolls of 1</option>
+						<option value="fail">Any failed save rolls</option>
+						<option value="inv_1">Invulnerable save rolls of 1</option>
+						<option value="inv_fail">Failed invulnerable save rolls</option>
+					</select>
+					</p>
+					<p><label>Feel No Pain: <input type="text" id="noPain"></label>
+					</p>
+				</div>
+			</div>
+
+			<button class="formbold-btn" onclick="clickRollBtn()">Roll</button>
+			</form>
+			<div>
+				<h3>Testing Area:</h3>
+				<div id="testArea"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

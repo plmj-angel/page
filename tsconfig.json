@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"outDir": "./res/js",
+	  	"strict": true
+	},
+	"include": ["./res/*.ts"]
+}
