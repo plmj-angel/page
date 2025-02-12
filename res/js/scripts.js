@@ -8,15 +8,19 @@ const htmlIds = [
 let ignoredRolls = 0;
 let ignoredWoundRolls = 0;
 let woundRolls = [];
+let ignoredThirdRolls = 0;
 function clickRollBtn() {
     //reset for reclicks
     ignoredRolls = 0;
     ignoredWoundRolls = 0;
     woundRolls = [];
+    ignoredThirdRolls = 0;
     const pageValues = getValues(htmlIds);
     const totalRolls = getTotalRolls(+pageValues.models, +pageValues.attacks);
     const hitRolls = getHitRolls(totalRolls);
     const woundThresholds = getWoundRollThresholds(hitRolls.length, +pageValues.str, +pageValues.tough);
+    const thirdRollFails = getThirdRollFails(woundThresholds.length, +pageValues.save);
+    const totalWounds = getTotalWounds(thirdRollFails.length, +pageValues.dmg);
     let calculatedData = {};
     calculatedData.firstRolls = totalRolls;
     calculatedData.hits = hitRolls;
@@ -25,6 +29,9 @@ function clickRollBtn() {
     calculatedData.woundRollValues = woundRolls;
     calculatedData.woundThresholds = woundThresholds;
     calculatedData.ignoredWoundRollsByRollingAOne = ignoredWoundRolls;
+    calculatedData.thirdRollFails = thirdRollFails;
+    calculatedData.thirdRollsUnderSave = ignoredThirdRolls;
+    calculatedData.totalWounds = totalWounds;
     console.log(pageValues);
     writeToTestArea(calculatedData, "testArea");
 }
@@ -57,9 +64,6 @@ function writeToTestArea(dataObject, testAreaId) {
         testArea.appendChild(paraElement);
     });
 }
-function getTotalRolls(models, attacks) {
-    return models * attacks;
-}
 function performRoll(dieSides = 6) {
     return Math.floor(Math.random() * dieSides) + 1;
 }
@@ -73,6 +77,9 @@ function simulateRolls(rollsAmount, rollCallback, dieSides = 6) {
         }
     }
     return simulationResults;
+}
+function getTotalRolls(models, attacks) {
+    return models * attacks;
 }
 function getHitRolls(rollsAmmount) {
     const hitRolls = simulateRolls(rollsAmmount, (rollResult) => {
@@ -120,4 +127,16 @@ function getWoundRollThresholds(hitRolls, str, tough) {
     });
     return woundThresholds;
 }
-//function getThirdRollFails(threshold: number, save: number) {
+function getThirdRollFails(threshold, save) {
+    const thirdRollFails = simulateRolls(threshold, (rollResult) => {
+        if (rollResult > save) {
+            return rollResult;
+        }
+        ignoredThirdRolls++;
+        return null;
+    });
+    return thirdRollFails;
+}
+function getTotalWounds(fails, damage) {
+    return fails * damage;
+}
