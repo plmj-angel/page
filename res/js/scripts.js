@@ -99,10 +99,10 @@ function getWoundRollThresholds(hitRolls, str, tough) {
         woundRolls.push(rollResult);
         if (rollResult > 1) {
             let woundThreshold;
-            if (str === tough * 2) {
+            if (str >= tough * 2) {
                 woundThreshold = 2;
             }
-            else if (str > tough * 2) {
+            else if (str > tough) {
                 woundThreshold = 3;
             }
             else if (str === tough) {
