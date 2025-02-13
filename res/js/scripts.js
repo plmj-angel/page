@@ -5,6 +5,9 @@ const htmlIds = [
     //defense fields
     "defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain"
 ];
+/*let firstRolls = {};
+let woundRolls = {};
+let saveRolls = {};*/
 let ignoredRolls = 0;
 let ignoredWoundRolls = 0;
 let woundRolls = [];
@@ -58,9 +61,30 @@ function writeToTestArea(dataObject, testAreaId) {
         throw new Error("you done goofed the test area id smh");
     }
     testArea.innerHTML = ""; // wipe the test area
+    const formatValue = (value, indent = "&nbsp;&nbsp;") => {
+        if (Array.isArray(value)) {
+            // Keep arrays on a single line
+            return `[ ${value.map((item) => formatValue(item)).join(", ")} ]`;
+        }
+        else if (typeof value === "object" && value !== null) {
+            // Always format objects with new lines and indentation
+            return `{<br>${Object.entries(value)
+                .map(([subKey, subValue]) => `${indent}${subKey}: ${formatValue(subValue, indent + "&nbsp;&nbsp;")}`)
+                .join("<br>")}<br>}`;
+        }
+        // Primitive values (string, number, boolean) stay on the same line
+        return String(value);
+    };
     Object.entries(dataObject).forEach(([key, value]) => {
         const paraElement = document.createElement("p");
-        paraElement.textContent = `${key}: ${value}`;
+        // If the value is a primitive or an array, keep it on one line
+        if (typeof value !== "object" || value === null || Array.isArray(value)) {
+            paraElement.innerHTML = `<strong>${key}:</strong> ${formatValue(value)}`;
+        }
+        else {
+            // If it's an object, format it with new lines
+            paraElement.innerHTML = `<strong>${key}:</strong> <br>${formatValue(value)}`;
+        }
         testArea.appendChild(paraElement);
     });
 }
@@ -95,29 +119,14 @@ function getHitRolls(rollsAmmount) {
     return hitRolls;
 }
 function getWoundRollThresholds(hitRolls, str, tough) {
+    const threshold = getWoundThreshold(str, tough);
     const woundThresholds = simulateRolls(hitRolls, (rollResult) => {
         woundRolls.push(rollResult);
         if (rollResult > 1) {
-            let woundThreshold;
-            if (str >= tough * 2) {
-                woundThreshold = 2;
+            if (rollResult >= threshold) {
+                return rollResult;
             }
-            else if (str > tough) {
-                woundThreshold = 3;
-            }
-            else if (str === tough) {
-                woundThreshold = 4;
-            }
-            else if (str < tough && str > tough / 2) {
-                woundThreshold = 5;
-            }
-            else if (str <= tough / 2) {
-                woundThreshold = 6;
-            }
-            else {
-                throw new Error(`Error Calculating wound threshold roll. Roll with the value of ${rollResult}`);
-            }
-            return woundThreshold;
+            return null;
         }
         else { //TESTING ELSE BLOCK!
             ignoredWoundRolls++;
@@ -126,6 +135,26 @@ function getWoundRollThresholds(hitRolls, str, tough) {
         }
     });
     return woundThresholds;
+}
+function getWoundThreshold(str, tough) {
+    if (str >= tough * 2) {
+        return 2;
+    }
+    else if (str > tough) {
+        return 3;
+    }
+    else if (str === tough) {
+        return 4;
+    }
+    else if (str < tough && str > tough / 2) {
+        return 5;
+    }
+    else if (str <= tough / 2) {
+        return 6;
+    }
+    else {
+        throw new Error(`Error Calculating wound threshold roll. Roll with the value for the strength of ${str} and toughness of ${tough}`);
+    }
 }
 function getThirdRollFails(threshold, save) {
     const thirdRollFails = simulateRolls(threshold, (rollResult) => {
