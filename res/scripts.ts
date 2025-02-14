@@ -18,7 +18,7 @@ function clickRollBtn(): void {
 		totalWoundsInflicted,
 		+userInputValues.wounds,
 		+userInputValues.defModels,
-		+userInputValues.damage
+		+userInputValues.dmg
 	);
 
 	//testing values/////////////////////////////////////////////////
@@ -44,36 +44,46 @@ function getTotalWounds(fails: number, damage: number): number {
 }
 
 function getModelsKilled(
-	totalWounds: number,
-	modelWounds: number,
-	totalModels: number,
-	damagePerHit: number
+    totalWounds: number, 
+    modelWounds: number, 
+    totalModels: number, 
+    damagePerHit: number
 ): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean; modelsRemaining: number } {
 
-	if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
-		throw new Error("Invalid enemy model wounds, total models, or damage per hit value.");
-	}
+    if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
+        throw new Error("Invalid enemy model wounds, total models, or damage per hit value.");
+    }
 
-	let woundsRemaining = totalWounds;
-	let modelsKilled = 0;
-	let lastModelWounds = modelWounds;
+    let woundsRemaining = totalWounds;
+    let modelsKilled = 0;
+    let modelsRemaining = totalModels;
+    let currentModelWounds = modelWounds;
 
-	while (woundsRemaining >= damagePerHit && modelsKilled < totalModels) {
-		if (damagePerHit >= lastModelWounds) {
-			woundsRemaining -= damagePerHit;
-			modelsKilled++;
-			lastModelWounds = modelWounds;
-		} else {
-			lastModelWounds -= damagePerHit;
-			woundsRemaining -= damagePerHit;
-		}
-	}
+    while (woundsRemaining > 0 && modelsRemaining > 0) {
+        if (woundsRemaining >= damagePerHit) {
+            if (damagePerHit >= currentModelWounds) {
+                modelsKilled++;
+                woundsRemaining -= damagePerHit;
+                modelsRemaining--;
 
-	const unitDestroyed = modelsKilled >= totalModels;
-	const modelsRemaining = unitDestroyed ? 0 : totalModels - modelsKilled;
-	const remainingWounds = modelsKilled < totalModels ? lastModelWounds : 0;
+                if (modelsRemaining > 0) {
+                    currentModelWounds = modelWounds;
+                } else {
+                    currentModelWounds = 0;
+                }
+            } else {
+                currentModelWounds -= damagePerHit;
+                woundsRemaining -= damagePerHit;
+            }
+        } else {
+            break;
+        }
+    }
 
-	return { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining };
+    const unitDestroyed = modelsRemaining === 0;
+    const remainingWounds = modelsRemaining > 0 ? currentModelWounds : 0;
+
+    return { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
