@@ -7,7 +7,7 @@ const htmlIds: string[] = [
 	"models", "attacks", "skill", "str", "ap", "dmg", "hitMod", "lethHit", "susHits", "hitCrit", "critRolls", "reroll", "woundMod", "devastWound", "woundCrit", "woundRoll", "woundReroll",
 
 	//defense fields
-	"defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain"
+	"defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain", "miniModels", "miniWounds", "leaderWounds"
 ];
 
 const devValues: FieldValues = {
