@@ -1,8 +1,12 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
-		"outDir": "./res/js",
-	  	"strict": true
+	  "target": "ESNext", // Compiles to ES5 for broader browser compatibility
+	  "module": "ESNext", // Uses ES module syntax
+	  "moduleResolution": "node", // Resolves modules in a Node.js style
+	  "strict": true, // Enables strict type-checking options
+	  "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+	  "skipLibCheck": true, // Skips type checking of declaration files
+	  "forceConsistentCasingInFileNames": true // Ensures consistent casing in file names
 	},
-	"include": ["./res/*.ts"]
-}
+	"include": ["res/**/*.ts"]
+  }

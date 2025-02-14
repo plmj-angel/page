@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>Armed Conflict Mallet 40,000</title>
 	<link href="res/styles.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="res/js/scripts.js"></script>
 </head>
 
 <body>
@@ -70,29 +69,29 @@
 					<p><label>Wound Modifier: <input type="text" id="woundMod"></label>
 					</p>
 					<p>
-					<label><input type="checkbox" id="devastWound" value="1">Devastating Wounds</label>
+						<label><input type="checkbox" id="devastWound" value="1">Devastating Wounds</label>
 					</p>
 					<p><label>Critical Wound :<input type="text" id="woundCrit"></label>
 					</p>
 					<p>
-					Critical wound rolls:
-					<select id="woundRoll">
-						<option value="NONE">Have no other abilities</option>
-						<option value="mortal+1">Deal 1 mortal wound in addition to regular damage</option>
-					</select>
+						Critical wound rolls:
+						<select id="woundRoll">
+							<option value="NONE">Have no other abilities</option>
+							<option value="mortal+1">Deal 1 mortal wound in addition to regular damage</option>
+						</select>
 					</p>
 					<p>
-					Wound Reroll:
-					<select id="woundReroll">
-						<option value="NONE">No wound rolls</option>
-						<option value="1">Wound rolls of 1</option>
-						<option value="fail">Failed wound rolls</option>
-						<option value="noncrit">Non-critical wound rolls</option>
-					</select>
+						Wound Reroll:
+						<select id="woundReroll">
+							<option value="NONE">No wound rolls</option>
+							<option value="1">Wound rolls of 1</option>
+							<option value="fail">Failed wound rolls</option>
+							<option value="noncrit">Non-critical wound rolls</option>
+						</select>
 					</p>
 				</div>
 			</div>
-			
+
 			<div id="defenseStats">
 				<h3>Defense Stats</h3>
 				<div class="formbold-input-flex">
@@ -135,23 +134,23 @@
 					<p><label>Save Modifier: <input type="text" id="saveMod"></label>
 					</p>
 					<p>
-					<label><input type="checkbox" id="cover" value="1">Cover</label>
+						<label><input type="checkbox" id="cover" value="1">Cover</label>
 					</p>
 					<p>
-					Reroll: <select id="saveReroll">
-						<option value="">No save rolls</option>
-						<option value="1">Any save rolls of 1</option>
-						<option value="fail">Any failed save rolls</option>
-						<option value="inv_1">Invulnerable save rolls of 1</option>
-						<option value="inv_fail">Failed invulnerable save rolls</option>
-					</select>
+						Reroll: <select id="saveReroll">
+							<option value="">No save rolls</option>
+							<option value="1">Any save rolls of 1</option>
+							<option value="fail">Any failed save rolls</option>
+							<option value="inv_1">Invulnerable save rolls of 1</option>
+							<option value="inv_fail">Failed invulnerable save rolls</option>
+						</select>
 					</p>
 					<p><label>Feel No Pain: <input type="text" id="noPain"></label>
 					</p>
 				</div>
 			</div>
 
-			<button class="formbold-btn" onclick="clickRollBtn()">Roll</button>
+			<button class="formbold-btn" id="rollButton">Roll</button>
 			</form>
 			<div>
 				<h3>Testing Area:</h3>
@@ -159,6 +158,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="bundle.js"></script>
 </body>
 
 </html>
