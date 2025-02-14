@@ -31,6 +31,7 @@ function clickRollBtn(): void {
 	calculatedData.remainingWounds = remainingWounds;
 	calculatedData.survivingModels = modelsRemaining;
 	calculatedData.entireUnitDestroyed = unitDestroyed;
+	calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
 	console.log(calculatedData);
 
