@@ -14,9 +14,11 @@ function clickRollBtn(): void {
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
 	);
-	const { modelsKilled, remainingWounds } = getModelsKilled(
-		totalWoundsInflicted, +userInputValues.wounds
-	);
+    const { modelsKilled, remainingWounds, unitDestroyed } = getModelsKilled(
+        totalWoundsInflicted,
+        +userInputValues.wounds,
+        +userInputValues.defModels
+    );
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
@@ -26,6 +28,7 @@ function clickRollBtn(): void {
 	calculatedData.totalWounds = totalWoundsInflicted;
 	calculatedData.modelsKilled = modelsKilled;
 	calculatedData.remainingWounds = remainingWounds;
+	calculatedData.entireUnitDestroyed = unitDestroyed;
 	console.log(userInputValues);
 	writeToTestArea(calculatedData, "testArea");
 	/////////////////////////////////////////////////////////////////
@@ -35,15 +38,29 @@ function getTotalWounds(fails: number, damage: number): number {
 	return fails * damage;
 }
 
-function getModelsKilled(totalWounds: number, modelWounds: number): { modelsKilled: number; remainingWounds: number } {
-    if (modelWounds <= 0) {
-        throw new Error("Invalid enemy model wounds value.");
+function getModelsKilled(totalWounds: number, modelWounds: number, totalModels: number): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean } {
+    if (modelWounds <= 0 || totalModels <= 0) {
+        throw new Error("Invalid enemy model wounds or total models value.");
     }
 
-    const modelsKilled = Math.floor(totalWounds / modelWounds);
-    const remainingWounds = totalWounds % modelWounds; 
+    let woundsRemaining = totalWounds;
+    let modelsKilled = 0;
+    let lastModelWounds = modelWounds;
 
-    return { modelsKilled, remainingWounds };
+    while (woundsRemaining > 0 && modelsKilled < totalModels) {
+        if (woundsRemaining >= lastModelWounds) {
+            woundsRemaining -= lastModelWounds;
+            modelsKilled++;
+            lastModelWounds = modelWounds;
+        } else {
+            lastModelWounds -= woundsRemaining;
+            woundsRemaining = 0;
+        }
+    }
+
+    const unitDestroyed = modelsKilled >= totalModels;
+
+    return { modelsKilled, remainingWounds: modelWounds - lastModelWounds, unitDestroyed };
 }
 
 document.addEventListener("DOMContentLoaded", () => {

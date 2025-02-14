@@ -26,7 +26,7 @@ const devValues: FieldValues = {
     "tough": "2",
     "save": "2",
     "invuln": "0",
-    "wounds": "5",
+    "wounds": "5", //hp
     "saveMod": "",
     "cover": false,
     "saveReroll": "",

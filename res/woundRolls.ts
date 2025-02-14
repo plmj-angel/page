@@ -17,11 +17,17 @@ export class WoundRolls extends RollsGroup {
             if (rollResult >= this.threshold) {
                 return rollResult;
             } else {
+                if (rollResult === 1) { 
+                    this.rolledAOne++;
+                    console.log("rolled a 1 (wound roll)"); 
+                }
+
                 this.failValues.push(rollResult);
                 return null;
             }
         });
     }
+
 
     private getWoundThreshold(strength: number, toughness: number): number {
 		if (strength === 0 && toughness === 0) return 0;
