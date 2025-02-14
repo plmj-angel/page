@@ -24,6 +24,7 @@ export class WoundRolls extends RollsGroup {
     }
 
     private getWoundThreshold(strength: number, toughness: number): number {
+		if (strength === 0 && toughness === 0) return 0;
         if (strength >= toughness * 2) return 2;
         if (strength > toughness) return 3;
         if (strength === toughness) return 4;
