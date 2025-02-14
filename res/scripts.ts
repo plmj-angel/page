@@ -14,7 +14,7 @@ function clickRollBtn(): void {
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
 	);
-    const { modelsKilled, remainingWounds, unitDestroyed } = getModelsKilled(
+    const { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining } = getModelsKilled(
         totalWoundsInflicted,
         +userInputValues.wounds,
         +userInputValues.defModels,
@@ -29,6 +29,7 @@ function clickRollBtn(): void {
 	calculatedData.totalWounds = totalWoundsInflicted;
 	calculatedData.modelsKilled = modelsKilled;
 	calculatedData.remainingWounds = remainingWounds;
+	calculatedData.survivingModels = modelsRemaining;
 	calculatedData.entireUnitDestroyed = unitDestroyed;
 	console.log(userInputValues);
 	writeToTestArea(calculatedData, "testArea");
@@ -43,8 +44,8 @@ function getModelsKilled(
     totalWounds: number, 
     modelWounds: number, 
     totalModels: number, 
-    damagePerHit: number 
-): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean } {
+    damagePerHit: number // Fixed damage per attack
+): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean; modelsRemaining: number } {
 
     if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
         throw new Error("Invalid enemy model wounds, total models, or damage per hit value.");
@@ -56,19 +57,22 @@ function getModelsKilled(
 
     while (woundsRemaining >= damagePerHit && modelsKilled < totalModels) {
         if (damagePerHit >= lastModelWounds) {
+            // The model is killed, excess damage is wasted
             woundsRemaining -= damagePerHit;
             modelsKilled++;
-            lastModelWounds = modelWounds;
+            lastModelWounds = modelWounds; // Reset to full wounds for the next model
         } else {
+            // Partial wounds applied, model survives
             lastModelWounds -= damagePerHit;
             woundsRemaining -= damagePerHit;
         }
     }
 
     const unitDestroyed = modelsKilled >= totalModels;
+    const modelsRemaining = unitDestroyed ? 0 : totalModels - modelsKilled;
     const remainingWounds = modelsKilled < totalModels ? lastModelWounds : 0;
 
-    return { modelsKilled, remainingWounds, unitDestroyed };
+    return { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
