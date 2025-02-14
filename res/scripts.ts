@@ -3,7 +3,6 @@ import { HitRolls, WoundRolls, SaveRolls } from "./rollgroups";
 
 
 function clickRollBtn(): void {
-	window.alert('6');
 	const userInputValues: FieldValues = getPageValues();
 
 	const hitRolls = new HitRolls(userInputValues);
