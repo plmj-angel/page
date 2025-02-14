@@ -5,7 +5,6 @@ import { SaveRolls } from "./saveRolls";
 
 
 function clickRollBtn(): void {
-	window.alert("8");
 	const userInputValues: FieldValues = getPageValues();
 
 	const hitRolls = new HitRolls(userInputValues);
