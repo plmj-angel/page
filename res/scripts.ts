@@ -1,8 +1,11 @@
 import { FieldValues, getPageValues } from "./pageData";
-import { HitRolls, WoundRolls, SaveRolls } from "./rollgroups";
+import { HitRolls } from "./hitRolls";
+import { WoundRolls } from "./woundRolls";
+import { SaveRolls } from "./saveRolls";
 
 
 function clickRollBtn(): void {
+	window.alert("8");
 	const userInputValues: FieldValues = getPageValues();
 
 	const hitRolls = new HitRolls(userInputValues);
@@ -33,6 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		rollButton.addEventListener("click", clickRollBtn);
 	}
 });
+
+
+
+
+
+
 
 
 
