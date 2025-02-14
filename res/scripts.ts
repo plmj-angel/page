@@ -11,7 +11,12 @@ function clickRollBtn(): void {
 	const woundRolls = new WoundRolls(hitRolls.successValues.length ,userInputValues);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
 
-	const totalWoundsInflicted : number = getTotalWounds(saveRolls.failValues.length, +userInputValues.dmg);
+	const totalWoundsInflicted: number = getTotalWounds(
+		saveRolls.failValues.length, +userInputValues.dmg
+	);
+	const { modelsKilled, remainingWounds } = getModelsKilled(
+		totalWoundsInflicted, +userInputValues.wounds
+	);
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
@@ -19,15 +24,26 @@ function clickRollBtn(): void {
 	calculatedData.woundRoll = woundRolls;
 	calculatedData.saveRoll = saveRolls
 	calculatedData.totalWounds = totalWoundsInflicted;
+	calculatedData.modelsKilled = modelsKilled;
+	calculatedData.remainingWounds = remainingWounds;
 	console.log(userInputValues);
 	writeToTestArea(calculatedData, "testArea");
 	/////////////////////////////////////////////////////////////////
 }
 
-
-
 function getTotalWounds(fails: number, damage: number): number {
 	return fails * damage;
+}
+
+function getModelsKilled(totalWounds: number, modelWounds: number): { modelsKilled: number; remainingWounds: number } {
+    if (modelWounds <= 0) {
+        throw new Error("Invalid enemy model wounds value.");
+    }
+
+    const modelsKilled = Math.floor(totalWounds / modelWounds);
+    const remainingWounds = totalWounds % modelWounds; 
+
+    return { modelsKilled, remainingWounds };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
