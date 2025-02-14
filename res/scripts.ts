@@ -13,6 +13,7 @@ function clickRollBtn(): void {
 
 	const totalWoundsInflicted : number = getTotalWounds(saveRolls.failValues.length, +userInputValues.dmg);
 
+	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
 	calculatedData.firstRoll = hitRolls;
 	calculatedData.woundRoll = woundRolls;
@@ -20,6 +21,7 @@ function clickRollBtn(): void {
 	calculatedData.totalWounds = totalWoundsInflicted;
 	console.log(userInputValues);
 	writeToTestArea(calculatedData, "testArea");
+	/////////////////////////////////////////////////////////////////
 }
 
 
