@@ -8,18 +8,18 @@ function clickRollBtn(): void {
 	const userInputValues: FieldValues = getPageValues();
 
 	const hitRolls = new HitRolls(userInputValues);
-	const woundRolls = new WoundRolls(hitRolls.successValues.length ,userInputValues);
+	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
 
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
 	);
-    const { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining } = getModelsKilled(
-        totalWoundsInflicted,
-        +userInputValues.wounds,
-        +userInputValues.defModels,
+	const { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining } = getModelsKilled(
+		totalWoundsInflicted,
+		+userInputValues.wounds,
+		+userInputValues.defModels,
 		+userInputValues.damage
-    );
+	);
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
@@ -31,7 +31,9 @@ function clickRollBtn(): void {
 	calculatedData.remainingWounds = remainingWounds;
 	calculatedData.survivingModels = modelsRemaining;
 	calculatedData.entireUnitDestroyed = unitDestroyed;
-	console.log(userInputValues);
+	addResultsToGlobalWindow(calculatedData);
+	console.log(calculatedData);
+
 	writeToTestArea(calculatedData, "testArea");
 	/////////////////////////////////////////////////////////////////
 }
@@ -41,42 +43,42 @@ function getTotalWounds(fails: number, damage: number): number {
 }
 
 function getModelsKilled(
-    totalWounds: number, 
-    modelWounds: number, 
-    totalModels: number, 
-    damagePerHit: number
+	totalWounds: number,
+	modelWounds: number,
+	totalModels: number,
+	damagePerHit: number
 ): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean; modelsRemaining: number } {
 
-    if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
-        throw new Error("Invalid enemy model wounds, total models, or damage per hit value.");
-    }
+	if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
+		throw new Error("Invalid enemy model wounds, total models, or damage per hit value.");
+	}
 
-    let woundsRemaining = totalWounds;
-    let modelsKilled = 0;
-    let lastModelWounds = modelWounds;
+	let woundsRemaining = totalWounds;
+	let modelsKilled = 0;
+	let lastModelWounds = modelWounds;
 
-    while (woundsRemaining >= damagePerHit && modelsKilled < totalModels) {
-        if (damagePerHit >= lastModelWounds) {
-            woundsRemaining -= damagePerHit;
-            modelsKilled++;
-            lastModelWounds = modelWounds;
-        } else {
-            lastModelWounds -= damagePerHit;
-            woundsRemaining -= damagePerHit;
-        }
-    }
+	while (woundsRemaining >= damagePerHit && modelsKilled < totalModels) {
+		if (damagePerHit >= lastModelWounds) {
+			woundsRemaining -= damagePerHit;
+			modelsKilled++;
+			lastModelWounds = modelWounds;
+		} else {
+			lastModelWounds -= damagePerHit;
+			woundsRemaining -= damagePerHit;
+		}
+	}
 
-    const unitDestroyed = modelsKilled >= totalModels;
-    const modelsRemaining = unitDestroyed ? 0 : totalModels - modelsKilled;
-    const remainingWounds = modelsKilled < totalModels ? lastModelWounds : 0;
+	const unitDestroyed = modelsKilled >= totalModels;
+	const modelsRemaining = unitDestroyed ? 0 : totalModels - modelsKilled;
+	const remainingWounds = modelsKilled < totalModels ? lastModelWounds : 0;
 
-    return { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining };
+	return { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 	const rollButton = document.getElementById("rollButton");
-	
-    if (rollButton) {
+
+	if (rollButton) {
 		rollButton.addEventListener("click", clickRollBtn);
 	}
 });
@@ -122,4 +124,14 @@ function writeToTestArea(dataObject: FieldValues, testAreaId: string): void {
 
 		testArea.appendChild(paraElement);
 	});
+}
+
+function addResultsToGlobalWindow(results: object): void {
+	const key = "turnResults" as keyof Window;
+
+	if (!Array.isArray(window[key])) {
+		(window as any)[key] = [];
+	}
+	(window as any)[key].push(results);
+	console.log(window[key]);
 }
