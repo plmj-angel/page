@@ -4,24 +4,42 @@ import { HitRolls, WoundRolls, SaveRolls } from "./rollgroups";
 
 function clickRollBtn(): void {
 	window.alert('6');
-	const pageValues: FieldValues = getPageValues();
+	const userInputValues: FieldValues = getPageValues();
 
-	const hitRolls = new HitRolls(pageValues);
-	const woundRolls = new WoundRolls(hitRolls.successValues.length ,pageValues);
-	const saveRolls = new SaveRolls(woundRolls.successValues.length, pageValues);
+	const hitRolls = new HitRolls(userInputValues);
+	const woundRolls = new WoundRolls(hitRolls.successValues.length ,userInputValues);
+	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
 
-	const totalWounds: number = getTotalWounds(saveRolls.failValues.length, +pageValues.dmg);
+	const totalWoundsInflicted : number = getTotalWounds(saveRolls.failValues.length, +userInputValues.dmg);
 
 	let calculatedData: Record<string, any> = {};
 	calculatedData.firstRoll = hitRolls;
 	calculatedData.woundRoll = woundRolls;
 	calculatedData.saveRoll = saveRolls
-	calculatedData.totalWounds = totalWounds;
-	console.log(pageValues);
+	calculatedData.totalWounds = totalWoundsInflicted;
+	console.log(userInputValues);
 	writeToTestArea(calculatedData, "testArea");
 }
 
 
+
+function getTotalWounds(fails: number, damage: number): number {
+	return fails * damage;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	const rollButton = document.getElementById("rollButton");
+	
+    if (rollButton) {
+		rollButton.addEventListener("click", clickRollBtn);
+	}
+});
+
+
+
+
+
+//for Nacho testing
 function writeToTestArea(dataObject: FieldValues, testAreaId: string): void {
 	const testArea = document.getElementById(testAreaId);
 	if (!testArea) {
@@ -58,15 +76,3 @@ function writeToTestArea(dataObject: FieldValues, testAreaId: string): void {
 		testArea.appendChild(paraElement);
 	});
 }
-
-function getTotalWounds(fails: number, damage: number): number {
-	return fails * damage;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const rollButton = document.getElementById("rollButton");
-
-    if (rollButton) {
-        rollButton.addEventListener("click", clickRollBtn);
-	}
-});
