@@ -44,7 +44,7 @@ function getModelsKilled(
     totalWounds: number, 
     modelWounds: number, 
     totalModels: number, 
-    damagePerHit: number // Fixed damage per attack
+    damagePerHit: number
 ): { modelsKilled: number; remainingWounds: number; unitDestroyed: boolean; modelsRemaining: number } {
 
     if (modelWounds <= 0 || totalModels <= 0 || damagePerHit <= 0) {
@@ -57,12 +57,10 @@ function getModelsKilled(
 
     while (woundsRemaining >= damagePerHit && modelsKilled < totalModels) {
         if (damagePerHit >= lastModelWounds) {
-            // The model is killed, excess damage is wasted
             woundsRemaining -= damagePerHit;
             modelsKilled++;
-            lastModelWounds = modelWounds; // Reset to full wounds for the next model
+            lastModelWounds = modelWounds;
         } else {
-            // Partial wounds applied, model survives
             lastModelWounds -= damagePerHit;
             woundsRemaining -= damagePerHit;
         }
