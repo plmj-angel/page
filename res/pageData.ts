@@ -30,7 +30,10 @@ const devValues: FieldValues = {
     "saveMod": "",
     "cover": false,
     "saveReroll": "",
-    "noPain": ""
+    "noPain": "",
+	"miniModels": "2",
+	"miniWounds": "2",
+	"leaderWounds": "1"
 }
 
 export function getPageValues(devMode = false): FieldValues {
