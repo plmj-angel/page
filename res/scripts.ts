@@ -5,7 +5,7 @@ import { SaveRolls } from "./saveRolls";
 
 
 function clickRollBtn(): void {
-	const userInputValues: FieldValues = getPageValues();
+	const userInputValues: FieldValues = getPageValues(true);
 
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
