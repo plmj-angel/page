@@ -49,13 +49,13 @@ function getModelsKilled(
     modelsRemaining: number; 
     additionalModelsRemaining: number 
 } {
-    const mainModels = +userInputValues.defModels;
-    const mainModelWounds = +userInputValues.wounds;
-    const additionalModels = +userInputValues.addUnits;
-    const additionalModelWounds = +userInputValues.addUnitsWounds;
-    const leaderWounds = +userInputValues.leaderWounds; // Fix leader reference
+    const mainModels = +userInputValues.defModels || 0;      // Default to 0 if empty
+    const mainModelWounds = +userInputValues.wounds || 0;   // Default to 0 if empty
+    const additionalModels = +userInputValues.addUnits || 0; // Default to 0 if empty
+    const additionalModelWounds = +userInputValues.addUnitsWounds || 0; // Default to 0 if empty
+    const leaderWounds = +userInputValues.leaderWounds || 0; // Default to 0 if empty
 
-    if (leaderWounds <= 0 || mainModelWounds <= 0 || additionalModelWounds <= 0 || mainModels < 0 || additionalModels < 0) {
+    if (leaderWounds < 0 || mainModelWounds < 0 || additionalModelWounds < 0 || mainModels < 0 || additionalModels < 0) {
         throw new Error("Invalid enemy unit values.");
     }
 
@@ -71,6 +71,7 @@ function getModelsKilled(
     console.log(`Additional Models: ${additionalModels}, Wounds Each: ${additionalModelWounds}`);
     console.log(`Leader Wounds: ${leaderWounds}`);
 
+    // ✅ Damage main unit models first
     while (woundsRemaining > 0 && modelsRemaining > 0) {
         console.log(`\n⚔️ Damaging Main Model - Wounds Left: ${lastModelWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= lastModelWounds) {
@@ -86,6 +87,7 @@ function getModelsKilled(
         }
     }
 
+    // ✅ Damage additional unit models next
     while (woundsRemaining > 0 && additionalModelsRemaining > 0) {
         console.log(`\n⚔️ Damaging Additional Model - Wounds Left: ${additionalModelWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= additionalModelWounds) {
@@ -100,6 +102,7 @@ function getModelsKilled(
         }
     }
 
+    // ✅ Damage the leader last
     let leaderRemainingWounds = leaderWounds;
     if (modelsRemaining === 0 && additionalModelsRemaining === 0 && woundsRemaining > 0) {
         console.log(`\n⚔️ Damaging Leader - Wounds Left: ${leaderRemainingWounds}, Wounds Remaining: ${woundsRemaining}`);
@@ -114,6 +117,7 @@ function getModelsKilled(
         }
     }
 
+    // ✅ Unit is destroyed only if the leader is also dead
     const unitDestroyed = modelsRemaining === 0 && additionalModelsRemaining === 0 && leaderRemainingWounds === 0;
 
     console.log(`\n🔚 Final State:`);
