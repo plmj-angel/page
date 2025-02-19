@@ -16,7 +16,7 @@ export class SaveRolls extends RollsGroup {
         this.simulateRolls(this.totalRolls, (rollResult) => {
             if (rollResult === 1) {
                 this.rolledAOne++;
-                console.log("rolled a 1 (save roll)");
+                //console.log("rolled a 1 (save roll)");
                 this.failValues.push(rollResult);
                 return null;
             }

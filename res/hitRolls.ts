@@ -14,7 +14,7 @@ export class HitRolls extends RollsGroup {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
             if (rollResult === 1) {
                 this.rolledAOne++;
-                console.log("rolled a 1");
+                //console.log("rolled a 1");
                 this.failValues.push(rollResult);
                 return null;
             }

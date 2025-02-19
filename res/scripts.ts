@@ -29,7 +29,7 @@ function clickRollBtn(): void {
 	calculatedData.entireUnitDestroyed = unitDestroyed;
 	calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
-	console.log(calculatedData);
+	//console.log(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
 	/////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ function getModelsKilled(
     const mainModelWounds = +userInputValues.wounds;
     const additionalModels = +userInputValues.addUnits;
     const additionalModelWounds = +userInputValues.addUnitsWounds;
-    const leaderWounds = +userInputValues.wounds;
+    const leaderWounds = +userInputValues.leaderWounds; // Fix leader reference
 
     if (leaderWounds <= 0 || mainModelWounds <= 0 || additionalModelWounds <= 0 || mainModels < 0 || additionalModels < 0) {
         throw new Error("Invalid enemy unit values.");
@@ -65,41 +65,63 @@ function getModelsKilled(
     let additionalModelsRemaining = additionalModels;
     let lastModelWounds = mainModelWounds;
 
+    console.log(`\n🔍 Initial State:`);
+    console.log(`Total Wounds Inflicted: ${totalWounds}`);
+    console.log(`Main Models: ${mainModels}, Wounds Each: ${mainModelWounds}`);
+    console.log(`Additional Models: ${additionalModels}, Wounds Each: ${additionalModelWounds}`);
+    console.log(`Leader Wounds: ${leaderWounds}`);
+
     while (woundsRemaining > 0 && modelsRemaining > 0) {
+        console.log(`\n⚔️ Damaging Main Model - Wounds Left: ${lastModelWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= lastModelWounds) {
             woundsRemaining -= lastModelWounds;
             modelsKilled++;
             modelsRemaining--;
             lastModelWounds = mainModelWounds;
+            console.log(`💀 Model Killed! Remaining Models: ${modelsRemaining}`);
         } else {
             lastModelWounds -= woundsRemaining;
             woundsRemaining = 0;
+            console.log(`🩸 Model Wounded, Remaining Wounds: ${lastModelWounds}`);
         }
     }
 
     while (woundsRemaining > 0 && additionalModelsRemaining > 0) {
+        console.log(`\n⚔️ Damaging Additional Model - Wounds Left: ${additionalModelWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= additionalModelWounds) {
             woundsRemaining -= additionalModelWounds;
             modelsKilled++;
             additionalModelsRemaining--;
+            console.log(`💀 Additional Model Killed! Remaining Additional Models: ${additionalModelsRemaining}`);
         } else {
             lastModelWounds = additionalModelWounds - woundsRemaining;
             woundsRemaining = 0;
+            console.log(`🩸 Additional Model Wounded, Remaining Wounds: ${lastModelWounds}`);
         }
     }
 
     let leaderRemainingWounds = leaderWounds;
     if (modelsRemaining === 0 && additionalModelsRemaining === 0 && woundsRemaining > 0) {
+        console.log(`\n⚔️ Damaging Leader - Wounds Left: ${leaderRemainingWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= leaderRemainingWounds) {
             woundsRemaining -= leaderRemainingWounds;
             leaderRemainingWounds = 0;
+            console.log(`💀 Leader Killed!`);
         } else {
             leaderRemainingWounds -= woundsRemaining;
             woundsRemaining = 0;
+            console.log(`🩸 Leader Wounded, Remaining Wounds: ${leaderRemainingWounds}`);
         }
     }
 
     const unitDestroyed = modelsRemaining === 0 && additionalModelsRemaining === 0 && leaderRemainingWounds === 0;
+
+    console.log(`\n🔚 Final State:`);
+    console.log(`Models Killed: ${modelsKilled}`);
+    console.log(`Surviving Models: ${modelsRemaining}`);
+    console.log(`Surviving Additional Models: ${additionalModelsRemaining}`);
+    console.log(`Remaining Wounds on Leader: ${leaderRemainingWounds}`);
+    console.log(`Unit Destroyed: ${unitDestroyed}`);
 
     return { 
         modelsKilled, 
@@ -168,5 +190,4 @@ function addResultsToGlobalWindow(results: object): void {
 		(window as any)[key] = [];
 	}
 	(window as any)[key].push(results);
-	console.log(window[key]);
 }

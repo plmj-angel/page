@@ -19,7 +19,7 @@ export class WoundRolls extends RollsGroup {
             } else {
                 if (rollResult === 1) { 
                     this.rolledAOne++;
-                    console.log("rolled a 1 (wound roll)"); 
+                    //console.log("rolled a 1 (wound roll)"); 
                 }
 
                 this.failValues.push(rollResult);
