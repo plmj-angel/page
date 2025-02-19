@@ -7,7 +7,7 @@ const htmlIds: string[] = [
 	"models", "attacks", "skill", "str", "ap", "dmg", "hitMod", "lethHit", "susHits", "hitCrit", "critRolls", "reroll", "woundMod", "devastWound", "woundCrit", "woundRoll", "woundReroll",
 
 	//defense fields
-	"defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain", "miniModels", "miniWounds", "leaderWounds"
+	"defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain", "addUnits", "addUnitsWounds", "leaderWounds"
 ];
 
 const devValues: FieldValues = {
@@ -31,8 +31,8 @@ const devValues: FieldValues = {
     "cover": false,
     "saveReroll": "",
     "noPain": "",
-	"miniModels": "2",
-	"miniWounds": "2",
+	"addUnits": "2",
+	"addUnitsWounds": "2",
 	"leaderWounds": "1"
 }
 
