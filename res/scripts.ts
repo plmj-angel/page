@@ -14,7 +14,7 @@ function clickRollBtn(): void {
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
 	);
-	const { modelsKilled, remainingWounds, unitDestroyed, modelsRemaining, additionalModelsRemaining } = getModelsKilled(userInputValues, totalWoundsInflicted);
+	const { modelsKilled, remainingWounds, entireUnitDestroyed, modelsRemaining, additionalModelsRemaining, leaderDead } = getModelsKilled(userInputValues, totalWoundsInflicted);
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
@@ -26,28 +26,32 @@ function clickRollBtn(): void {
 	calculatedData.remainingWounds = remainingWounds;
 	calculatedData.survivingModels = modelsRemaining;
 	calculatedData.additionalModelsRemaining = additionalModelsRemaining;
-	calculatedData.entireUnitDestroyed = unitDestroyed;
+	calculatedData.entireUnitDestroyed = entireUnitDestroyed;
+    calculatedData.leaderDead = leaderDead; 
 	calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
 	//console.log(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
-	/////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
 }
 
 function getTotalWounds(fails: number, damage: number): number {
 	return fails * damage;
 }
 
+
+//need to make this a class...
 function getModelsKilled(
     userInputValues: FieldValues,
     totalWounds: number
 ): { 
     modelsKilled: number; 
     remainingWounds: number; 
-    unitDestroyed: boolean; 
+    entireUnitDestroyed: boolean; 
     modelsRemaining: number; 
-    additionalModelsRemaining: number 
+    additionalModelsRemaining: number; 
+    leaderDead: boolean 
 } {
     const mainModels = +userInputValues.defModels || 0;
     const mainModelWounds = +userInputValues.wounds || 0;
@@ -78,19 +82,20 @@ function getModelsKilled(
             modelsKilled++;
             modelsRemaining--;
             lastModelWounds = mainModelWounds;
-            console.log(`💀 Model Killed! Remaining Models: ${modelsRemaining}`);
+            console.log(`💀 Main Model Killed! Remaining Main Models: ${modelsRemaining}`);
         } else {
             lastModelWounds -= woundsRemaining;
             woundsRemaining = 0;
-            console.log(`🩸 Model Wounded, Remaining Wounds: ${lastModelWounds}`);
+            console.log(`🩸 Main Model Wounded, Remaining Wounds: ${lastModelWounds}`);
         }
     }
 
+    let additionalModelsKilled = 0;
     while (woundsRemaining > 0 && additionalModelsRemaining > 0) {
         console.log(`\n⚔️ Damaging Additional Model - Wounds Left: ${additionalModelWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= additionalModelWounds) {
             woundsRemaining -= additionalModelWounds;
-            modelsKilled++;
+            additionalModelsKilled++;
             additionalModelsRemaining--;
             console.log(`💀 Additional Model Killed! Remaining Additional Models: ${additionalModelsRemaining}`);
         } else {
@@ -100,12 +105,14 @@ function getModelsKilled(
         }
     }
 
+    let leaderDead = false;
     let leaderRemainingWounds = leaderWounds;
     if (modelsRemaining === 0 && additionalModelsRemaining === 0 && woundsRemaining > 0) {
         console.log(`\n⚔️ Damaging Leader - Wounds Left: ${leaderRemainingWounds}, Wounds Remaining: ${woundsRemaining}`);
         if (woundsRemaining >= leaderRemainingWounds) {
             woundsRemaining -= leaderRemainingWounds;
             leaderRemainingWounds = 0;
+            leaderDead = true;
             console.log(`💀 Leader Killed!`);
         } else {
             leaderRemainingWounds -= woundsRemaining;
@@ -114,21 +121,23 @@ function getModelsKilled(
         }
     }
 
-    const unitDestroyed = modelsRemaining === 0 && additionalModelsRemaining === 0 && leaderRemainingWounds === 0;
+    const entireUnitDestroyed = modelsRemaining === 0;
 
     console.log(`\n🔚 Final State:`);
     console.log(`Models Killed: ${modelsKilled}`);
-    console.log(`Surviving Models: ${modelsRemaining}`);
+    console.log(`Surviving Main Models: ${modelsRemaining}`);
     console.log(`Surviving Additional Models: ${additionalModelsRemaining}`);
     console.log(`Remaining Wounds on Leader: ${leaderRemainingWounds}`);
-    console.log(`Unit Destroyed: ${unitDestroyed}`);
+    console.log(`Leader Dead: ${leaderDead}`);
+    console.log(`Main Unit Destroyed: ${entireUnitDestroyed}`);
 
     return { 
         modelsKilled, 
         remainingWounds: leaderRemainingWounds, 
-        unitDestroyed, 
+        entireUnitDestroyed, 
         modelsRemaining, 
-        additionalModelsRemaining 
+        additionalModelsRemaining, 
+        leaderDead 
     };
 }
 
