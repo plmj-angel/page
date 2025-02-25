@@ -8,6 +8,7 @@ export class HitRolls extends RollsGroup {
         this.rolledAOne = 0;
 
         this.getHitRolls(+userInputValues.skill);
+		this.successes = this.successValues.length;
     }
 
     getHitRolls(skill: number): void {
@@ -26,5 +27,6 @@ export class HitRolls extends RollsGroup {
                 return null;
             }
         });
+		this.fails = this.failValues.length;
     }
 }

@@ -2,10 +2,12 @@ import { FieldValues, getPageValues } from "./pageData";
 import { HitRolls } from "./hitRolls";
 import { WoundRolls } from "./woundRolls";
 import { SaveRolls } from "./saveRolls";
+import { TurnManager } from "./playerTurn";
 
 
 function clickRollBtn(): void {
 	const userInputValues: FieldValues = getPageValues();
+	const playerTurn = new TurnManager(userInputValues);
 
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
@@ -14,23 +16,22 @@ function clickRollBtn(): void {
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
 	);
-	const { modelsKilled, remainingWounds, entireUnitDestroyed, modelsRemaining, additionalModelsRemaining, leaderDead } = getModelsKilled(userInputValues, totalWoundsInflicted);
 
+	
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
 	calculatedData.firstRoll = hitRolls;
 	calculatedData.woundRoll = woundRolls;
 	calculatedData.saveRoll = saveRolls
-	calculatedData.totalWounds = totalWoundsInflicted;
-	calculatedData.modelsKilled = modelsKilled;
-	calculatedData.remainingWounds = remainingWounds;
-	calculatedData.survivingModels = modelsRemaining;
-	calculatedData.additionalModelsRemaining = additionalModelsRemaining;
-	calculatedData.entireUnitDestroyed = entireUnitDestroyed;
-    calculatedData.leaderDead = leaderDead; 
+	calculatedData.attackingMainUnit = playerTurn.applyWoundsToMainUnit(
+		totalWoundsInflicted, +userInputValues.models, +userInputValues.damage
+	);
+
+	//calculatedData.additionalModelsRemaining = additionalModelsRemaining;
+	//calculatedData.entireUnitDestroyed = entireUnitDestroyed;
+    //calculatedData.leaderDead = leaderDead; 
 	calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
-	//console.log(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
 	///////////////////////////////////////////////////////////////

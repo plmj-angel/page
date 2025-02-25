@@ -10,6 +10,7 @@ export class WoundRolls extends RollsGroup {
         this.threshold = this.getWoundThreshold(+userInputValues.str, +userInputValues.tough);
 
         this.getWoundRollSuccesses();
+		this.successes = this.successValues.length;
     }
 
     getWoundRollSuccesses(): void {
@@ -26,6 +27,7 @@ export class WoundRolls extends RollsGroup {
                 return null;
             }
         });
+		this.fails = this.failValues.length;
     }
 
 

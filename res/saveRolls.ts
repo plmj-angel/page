@@ -7,11 +7,10 @@ export class SaveRolls extends RollsGroup {
         this.totalRolls = totalWounds;
 
         this.rollSaves(+userInputValues.save);
+		this.successes = this.successValues.length;
     }
 
     rollSaves(save: number): void {
-        this.failValues = [];
-        this.successValues = [];
 
         this.simulateRolls(this.totalRolls, (rollResult) => {
             if (rollResult === 1) {
@@ -29,5 +28,6 @@ export class SaveRolls extends RollsGroup {
                 return rollResult;
             }
         });
+		this.fails = this.failValues.length;
     }
 }

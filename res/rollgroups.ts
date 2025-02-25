@@ -1,7 +1,9 @@
 export class RollsGroup {
     allRollSimulationResults: number[] = [];
     successValues: number[] = [];
+	successes: number = 0;
     failValues: number[] = [];
+	fails: number = 0;
     rolledAOne: number = 0;
     totalRolls: number = 0;
 

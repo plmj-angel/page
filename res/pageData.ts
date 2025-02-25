@@ -18,6 +18,7 @@ const devValues: FieldValues = {
     "ap": "1",
     "dmg": "2",
     "woundMod": "",
+	"hitMod": "",
     "devastWound": false,
     "woundCrit": "",
     "woundRoll": "NONE",
