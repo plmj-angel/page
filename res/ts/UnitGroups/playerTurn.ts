@@ -1,4 +1,4 @@
-import { FieldValues } from "./pageData";
+import { FieldValues } from ".././pageData";
 
 export class TurnManager {
 	mainModels: number;
@@ -22,24 +22,6 @@ export class TurnManager {
 		) {
 			throw new Error("Invalid enemy unit values.");
 		}
-	}
-
-	applyWoundsToMainUnit(wounds: number, models: number, damage: number): {
-		woundsRemaining: number, 
-		modelsRemaining: number, 
-		lastModelRemainingWounds: number, 
-		modelsKilled: number
-	} {
-		let woundsRemaining = wounds;
-		let modelsRemaining = models;
-		let lastModelRemainingWounds = wounds;
-
-		console.log(`before: ${woundsRemaining} & ${lastModelRemainingWounds}`)
-
-		let modelsKilled: number = this.applyWounds(woundsRemaining, modelsRemaining, damage, lastModelRemainingWounds);
-
-		return { modelsKilled, modelsRemaining, woundsRemaining, lastModelRemainingWounds }
-
 	}
 
 	private applyWounds(totalWounds: number, 
@@ -67,5 +49,23 @@ export class TurnManager {
 			}
 		}
 		return modelsKilled;
+	}
+
+	public applyWoundsToMainUnit(wounds: number, models: number, damage: number): {
+		woundsRemaining: number, 
+		modelsRemaining: number, 
+		lastModelRemainingWounds: number, 
+		modelsKilled: number
+	} {
+		let woundsRemaining = wounds;
+		let modelsRemaining = models;
+		let lastModelRemainingWounds = wounds;
+
+		console.log(`before: ${woundsRemaining} & ${lastModelRemainingWounds}`)
+
+		let modelsKilled: number = this.applyWounds(woundsRemaining, modelsRemaining, damage, lastModelRemainingWounds);
+
+		return { modelsKilled, modelsRemaining, woundsRemaining, lastModelRemainingWounds }
+
 	}
 }

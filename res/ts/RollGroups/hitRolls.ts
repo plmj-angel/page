@@ -1,5 +1,5 @@
 import { RollsGroup } from "./rollgroups";
-import { FieldValues } from "./pageData";
+import { FieldValues } from ".././pageData";
 
 export class HitRolls extends RollsGroup {
     constructor(userInputValues: FieldValues) {

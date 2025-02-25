@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './res/scripts.ts', // main ts file should prob rename
+  entry: './res/ts/scripts.ts', // main ts file should prob rename
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname), // Root so Nacho can find it easily
