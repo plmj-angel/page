@@ -1,6 +1,6 @@
-import { FieldValues } from ".././pageData";
+import { FieldValues } from "../pageData";
 
-export class TurnManager {
+export class BaseUnitClass {
 	mainModels: number;
 	mainModelWounds: number;
 	additionalModels: number;
@@ -24,7 +24,7 @@ export class TurnManager {
 		}
 	}
 
-	private applyWounds(totalWounds: number, 
+	protected applyWounds(totalWounds: number, 
 		modelsInUnit: number, 
 		attackDamage: number,
 		modelHealth: number
@@ -49,23 +49,5 @@ export class TurnManager {
 			}
 		}
 		return modelsKilled;
-	}
-
-	public applyWoundsToMainUnit(wounds: number, models: number, damage: number): {
-		woundsRemaining: number, 
-		modelsRemaining: number, 
-		lastModelRemainingWounds: number, 
-		modelsKilled: number
-	} {
-		let woundsRemaining = wounds;
-		let modelsRemaining = models;
-		let lastModelRemainingWounds = wounds;
-
-		console.log(`before: ${woundsRemaining} & ${lastModelRemainingWounds}`)
-
-		let modelsKilled: number = this.applyWounds(woundsRemaining, modelsRemaining, damage, lastModelRemainingWounds);
-
-		return { modelsKilled, modelsRemaining, woundsRemaining, lastModelRemainingWounds }
-
 	}
 }

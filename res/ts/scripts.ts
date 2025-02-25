@@ -2,16 +2,17 @@ import { FieldValues, getPageValues } from "./pageData";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
 import { SaveRolls } from "./RollGroups/saveRolls";
-import { TurnManager } from "./UnitGroups/playerTurn";
+import { MainUnitClass } from "./UnitGroups/mainUnit";
 
 
 function clickRollBtn(): void {
 	const userInputValues: FieldValues = getPageValues();
-	const playerTurn = new TurnManager(userInputValues);
-
+	
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
+	
+	const mainUnitAttack = new MainUnitClass(userInputValues);
 
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
@@ -23,7 +24,7 @@ function clickRollBtn(): void {
 	calculatedData.firstRoll = hitRolls;
 	calculatedData.woundRoll = woundRolls;
 	calculatedData.saveRoll = saveRolls
-	calculatedData.mainUnit = playerTurn.applyWoundsToMainUnit(
+	calculatedData.mainUnitAttack = mainUnitAttack.applyWoundsToMainUnit(
 		totalWoundsInflicted, +userInputValues.models, +userInputValues.damage
 	);
 
