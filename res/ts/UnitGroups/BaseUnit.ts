@@ -1,53 +1,53 @@
-import { FieldValues } from "../pageData";
+export interface UnitAttackResults {
+	modelsKilled: number;
+	modelsRemaining: number;
+	attackWoundsRemaining: number;
+	lastModelAttackedWounds: number;
+}
 
 export class BaseUnitClass {
-	mainModels: number;
-	mainModelWounds: number;
-	additionalModels: number;
-	additionalModelWounds: number;
-	leaderWounds: number;
+	unitModels: number;
+	woundsPerModel: number;
 
-	constructor (userInputValues: FieldValues) {
-		this.mainModels = +userInputValues.defModels || 0;
-		this.mainModelWounds = +userInputValues.wounds || 0;
-		this.additionalModels = +userInputValues.addUnits || 0;
-		this.additionalModelWounds = +userInputValues.addUnitsWounds || 0;
-		this.leaderWounds = +userInputValues.leaderWounds || 0;
-
-		if (this.leaderWounds < 0 || 
-			this.mainModelWounds < 0 || 
-			this.additionalModelWounds < 0 || 
-			this.mainModels < 0 || 
-			this.additionalModels < 0
-		) {
+	constructor (unitModels: number, wounds: number) {
+		this.unitModels = unitModels;
+		this.woundsPerModel = wounds;
+		if (this.woundsPerModel < 0 || this.unitModels < 0) {
 			throw new Error("Invalid enemy unit values.");
 		}
 	}
 
-	protected applyWounds(totalWounds: number, 
-		modelsInUnit: number, 
+	protected applyWounds(totalWoundsToApply: number, 
 		attackDamage: number,
-		modelHealth: number
-	): number {
+		modelsInUnit: number = this.unitModels, 
+		modelHealth: number = this.woundsPerModel
+	): UnitAttackResults {
 		let modelsKilled: number = 0;
+		let modelsRemaining = modelsInUnit;
+		let attackWoundsRemaining = totalWoundsToApply;
+		let lastModelAttackedWounds = modelHealth;
 
-		while (totalWounds > 0 && modelsInUnit > 0) {
+		while (attackWoundsRemaining > 0 && modelsRemaining > 0) {
+			
 			//apply wounds in dmg chuncks
-			if (totalWounds >= attackDamage) {
-				totalWounds -= attackDamage;
-				modelHealth -= attackDamage;
+			if (attackWoundsRemaining >= attackDamage) {
+				attackWoundsRemaining -= attackDamage;
+				lastModelAttackedWounds -= attackDamage;
 			} else {
-				modelHealth -= totalWounds;
-				totalWounds = 0;
+				lastModelAttackedWounds -= attackWoundsRemaining;
+				attackWoundsRemaining = 0;
 			}
 
 			//handle deaths
-			if (modelHealth <= 0) { 
-				modelHealth = 0; //lower cap
+			if (lastModelAttackedWounds <= 0) { 
+				lastModelAttackedWounds = 0; //lower cap
+				lastModelAttackedWounds = modelHealth;
 				modelsKilled++;
-				modelsInUnit--;
+				modelsRemaining--;
 			}
 		}
-		return modelsKilled;
+		return {
+			modelsKilled, modelsRemaining, attackWoundsRemaining, lastModelAttackedWounds
+		};
 	}
 }

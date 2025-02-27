@@ -39,7 +39,8 @@ const devValues: FieldValues = {
 
 export function getPageValues(devMode = false): FieldValues {
 	const fieldValues: FieldValues = {};
-	//testing block
+
+	//testing block - remember to remove bool param!//////////////////////////////
 	if (devMode){
 		htmlIds.forEach(htmlId => {
 			const element = document.getElementById(htmlId);
@@ -50,7 +51,8 @@ export function getPageValues(devMode = false): FieldValues {
 		});
 		return devValues;
 	}
-	///////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+
 	htmlIds.forEach(htmlId => {
 		const element = document.getElementById(htmlId);
 		if (element) {
@@ -58,6 +60,13 @@ export function getPageValues(devMode = false): FieldValues {
 		}
 	});
 	return fieldValues;
+}
+
+export function getStoredUserInput(storedValues: FieldValues, propertyKey: string): number {
+	if (storedValues[propertyKey] === null || storedValues[propertyKey] === undefined ) {
+		return 0;
+	}
+	return +storedValues[propertyKey];
 }
 
 function getInputValue(element: HTMLElement): string | boolean {

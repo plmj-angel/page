@@ -1,11 +1,11 @@
 import { FieldValues, getStoredUserInput} from "../pageData";
 import { BaseUnitClass, UnitAttackResults } from "./BaseUnit";
 
-export class MainUnitClass extends BaseUnitClass {
+export class AdditionalUnitClass extends BaseUnitClass {
 	constructor(userInput: FieldValues) {
 		super(
-			getStoredUserInput(userInput, "defModels"), 
-			getStoredUserInput(userInput, "wounds")
+			getStoredUserInput(userInput, "addUnits"), 
+			getStoredUserInput(userInput, "addUnitsWounds")
 		);
 	}
 

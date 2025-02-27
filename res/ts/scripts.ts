@@ -1,18 +1,21 @@
-import { FieldValues, getPageValues } from "./pageData";
+import { FieldValues, getPageValues, getStoredUserInput } from "./pageData";
+import { UnitAttackResults } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
 import { SaveRolls } from "./RollGroups/saveRolls";
 import { MainUnitClass } from "./UnitGroups/mainUnit";
+import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 
 
 function clickRollBtn(): void {
-	const userInputValues: FieldValues = getPageValues();
+	const userInputValues: FieldValues = getPageValues(false);
 	
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
 	
 	const mainUnitAttack = new MainUnitClass(userInputValues);
+	const additionalUnitAttack = new AdditionalUnitClass(userInputValues);
 
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
@@ -24,9 +27,10 @@ function clickRollBtn(): void {
 	calculatedData.firstRoll = hitRolls;
 	calculatedData.woundRoll = woundRolls;
 	calculatedData.saveRoll = saveRolls
-	calculatedData.mainUnitAttack = mainUnitAttack.applyWoundsToMainUnit(
-		totalWoundsInflicted, +userInputValues.models, +userInputValues.damage
-	);
+	calculatedData.mainUnitAttack = mainUnitAttack;
+	calculatedData.mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
+		totalWoundsInflicted, +userInputValues.dmg);
+	calculatedData.additionalUnitAttack = additionalUnitAttack;
 
 	//calculatedData.additionalModelsRemaining = additionalModelsRemaining;
 	//calculatedData.entireUnitDestroyed = entireUnitDestroyed;
@@ -201,4 +205,10 @@ function addResultsToGlobalWindow(results: object): void {
 		(window as any)[key] = [];
 	}
 	(window as any)[key].push(results);
+}
+
+function addScopedPropertyToPrintedTestObject(
+	testObject: Record<string, any>, ...propertyName: string[]): void 
+{
+	propertyName.forEach(propertyName => testObject[propertyName]);
 }
