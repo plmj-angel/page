@@ -50,4 +50,11 @@ export class BaseUnitClass {
 			modelsKilled, modelsRemaining, attackWoundsRemaining, lastModelAttackedWounds
 		};
 	}
+
+	protected thisUnitExists(unitModels: number): boolean {
+		if (unitModels !== undefined && unitModels > 0) {
+			return true;
+		}
+		return false;
+	}
 }

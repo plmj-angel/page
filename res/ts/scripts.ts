@@ -1,5 +1,5 @@
 import { FieldValues, getPageValues, getStoredUserInput } from "./pageData";
-import { UnitAttackResults } from "./UnitGroups/BaseUnit";
+import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
 import { SaveRolls } from "./RollGroups/saveRolls";
@@ -65,8 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-
-
+function checkUnitExists(unit: BaseUnitClass) {
+	//com
+}
 
 
 

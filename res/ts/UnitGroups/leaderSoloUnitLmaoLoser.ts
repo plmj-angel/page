@@ -1,5 +1,5 @@
 import { FieldValues, getStoredUserInput} from "../pageData";
-import { BaseUnitClass, UnitAttackResults } from "./BaseUnit";
+import { BaseUnitClass } from "./BaseUnit";
 
 interface LeaderResults {
 	leaderKilled: boolean;
@@ -18,8 +18,17 @@ export class LeaderUnitClass extends BaseUnitClass {
 	public applyWoundsToUnit(woundsToApply: number, damage: number): LeaderResults {
 		const result = this.applyWounds(woundsToApply, damage);
 
+
+
 		let leaderKilled: boolean = result.modelsRemaining === 0;
 		let leaderWoundsRemaining: number = result.lastModelAttackedWounds;
 		return { leaderKilled, leaderWoundsRemaining }
+	}
+
+	public hasALeader(leaderWounds: number): boolean {
+		if (typeof leaderWounds === undefined){
+			throw new Error(`someting went wrong uwu`);
+		}
+		return leaderWounds > 0;
 	}
 }
