@@ -5,33 +5,44 @@ import { WoundRolls } from "./RollGroups/woundRolls";
 import { SaveRolls } from "./RollGroups/saveRolls";
 import { MainUnitClass } from "./UnitGroups/mainUnit";
 import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
-
+import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnitLmaoLoser";
 
 function clickRollBtn(): void {
-	const userInputValues: FieldValues = getPageValues(false);
+	const userInputValues: FieldValues = getPageValues();
 	
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
 	
-	const mainUnitAttack = new MainUnitClass(userInputValues);
-	const additionalUnitAttack = new AdditionalUnitClass(userInputValues);
-
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, +userInputValues.dmg
+	);
+
+
+	const mainUnitAttack = new MainUnitClass(userInputValues);
+	const mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
+		totalWoundsInflicted, +userInputValues.dmg);
+
+	const additionalUnitAttack = new AdditionalUnitClass(userInputValues);
+	const additionalUnitAttackResults = additionalUnitAttack.applyWoundsToUnit			(mainUnitAttackResults.attackWoundsRemaining, +userInputValues.dmg)
+
+	const leaderAttack = new LeaderUnitClass(userInputValues);
+	const leaderAttackResults = leaderAttack.applyWoundsToUnit(
+		additionalUnitAttackResults.attackWoundsRemaining, +userInputValues.dmg
 	);
 
 	
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
-	calculatedData.firstRoll = hitRolls;
+	calculatedData.hitRolls = hitRolls;
 	calculatedData.woundRoll = woundRolls;
-	calculatedData.saveRoll = saveRolls
+	calculatedData.saveRoll = saveRolls;
 	calculatedData.mainUnitAttack = mainUnitAttack;
-	calculatedData.mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
-		totalWoundsInflicted, +userInputValues.dmg);
+	calculatedData.mainUnitAttackResults = mainUnitAttackResults
 	calculatedData.additionalUnitAttack = additionalUnitAttack;
-
+	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
+	calculatedData.leaderAttack = leaderAttack;
+	calculatedData.leaderAttackResults = leaderAttackResults;
 	//calculatedData.additionalModelsRemaining = additionalModelsRemaining;
 	//calculatedData.entireUnitDestroyed = entireUnitDestroyed;
     //calculatedData.leaderDead = leaderDead; 
@@ -205,10 +216,4 @@ function addResultsToGlobalWindow(results: object): void {
 		(window as any)[key] = [];
 	}
 	(window as any)[key].push(results);
-}
-
-function addScopedPropertyToPrintedTestObject(
-	testObject: Record<string, any>, ...propertyName: string[]): void 
-{
-	propertyName.forEach(propertyName => testObject[propertyName]);
 }
