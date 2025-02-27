@@ -28,7 +28,7 @@ export class BaseUnitClass {
 		let lastModelAttackedWounds = modelHealth;
 
 		while (attackWoundsRemaining > 0 && modelsRemaining > 0) {
-			
+
 			//apply wounds in dmg chuncks
 			if (attackWoundsRemaining >= attackDamage) {
 				attackWoundsRemaining -= attackDamage;

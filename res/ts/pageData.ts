@@ -34,7 +34,7 @@ const devValues: FieldValues = {
     "noPain": "",
 	"addUnits": "2",
 	"addUnitsWounds": "2",
-	"leaderWounds": "1"
+	"leaderWounds": "0"
 }
 
 export function getPageValues(devMode = false): FieldValues {

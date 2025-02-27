@@ -12,6 +12,5 @@ export class AdditionalUnitClass extends BaseUnitClass {
 	public applyWoundsToUnit(woundsToApply: number, damage: number): UnitAttackResults {
 		const result = this.applyWounds(woundsToApply, damage);
 		return result;
-
 	}
 }
