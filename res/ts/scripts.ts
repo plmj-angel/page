@@ -43,9 +43,6 @@ function clickRollBtn(): void {
 	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
 	calculatedData.leaderAttack = leaderAttack;
 	calculatedData.leaderAttackResults = leaderAttackResults;
-	//calculatedData.additionalModelsRemaining = additionalModelsRemaining;
-	//calculatedData.entireUnitDestroyed = entireUnitDestroyed;
-    //calculatedData.leaderDead = leaderDead; 
 	calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
 
