@@ -33,4 +33,14 @@ export class RollsGroup {
 
         return simulationResults;
     }
+
+	protected applyModifierToResult(modifier: number, rollResult: number): number {
+		if (rollResult === 6 || rollResult === 1) {
+			return rollResult;
+		}
+		if (modifier > 1 || modifier < -1) {
+			throw new Error(`invalid modifier value: ${modifier}`);
+		}
+		return rollResult + modifier;
+	}
 }

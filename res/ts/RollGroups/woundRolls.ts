@@ -3,9 +3,11 @@ import { FieldValues } from ".././pageData";
 
 export class WoundRolls extends RollsGroup {
     threshold: number;
+	woundMod: number;
 
     constructor(totalHits: number, userInputValues: FieldValues) {
         super();
+		this.woundMod = +userInputValues.woundMod;
         this.totalRolls = totalHits;
         this.threshold = this.getWoundThreshold(+userInputValues.str, +userInputValues.tough);
 
@@ -15,6 +17,7 @@ export class WoundRolls extends RollsGroup {
 
     getWoundRollSuccesses(): void {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
+			rollResult = this.applyModifierToResult(this.woundMod, rollResult);
             if (rollResult >= this.threshold) {
                 return rollResult;
             } else {

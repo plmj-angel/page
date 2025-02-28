@@ -2,8 +2,11 @@ import { RollsGroup } from "./rollgroups";
 import { FieldValues } from ".././pageData";
 
 export class HitRolls extends RollsGroup {
+	hitModifier: number;
+
     constructor(userInputValues: FieldValues) {
         super();
+		this.hitModifier = +userInputValues.hitMod;
         this.totalRolls = +userInputValues.models * +userInputValues.attacks;
         this.rolledAOne = 0;
 
@@ -13,6 +16,7 @@ export class HitRolls extends RollsGroup {
 
     getHitRolls(skill: number): void {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
+			rollResult = this.applyModifierToResult(this.hitModifier, rollResult);
             if (rollResult === 1) {
                 this.rolledAOne++;
                 //console.log("rolled a 1");
