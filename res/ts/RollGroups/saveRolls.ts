@@ -1,9 +1,12 @@
 import { RollsGroup } from "./rollgroups";
-import { FieldValues } from ".././pageData";
+import { FieldValues, getStoredUserInput } from ".././pageData";
 
 export class SaveRolls extends RollsGroup {
+	ap: number;
+	//invulnrable: number;
     constructor(totalWounds: number, userInputValues: FieldValues) {
         super();
+		this.ap = getStoredUserInput(userInputValues, "ap");
         this.totalRolls = totalWounds;
 
         this.rollSaves(+userInputValues.save);
@@ -11,8 +14,8 @@ export class SaveRolls extends RollsGroup {
     }
 
     rollSaves(save: number): void {
-
         this.simulateRolls(this.totalRolls, (rollResult) => {
+			rollResult = this.applyModifierToResult(-this.ap, rollResult, false)
             if (rollResult === 1) {
                 this.rolledAOne++;
                 //console.log("rolled a 1 (save roll)");

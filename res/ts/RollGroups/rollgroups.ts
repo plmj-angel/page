@@ -34,7 +34,11 @@ export class RollsGroup {
         return simulationResults;
     }
 
-	protected applyModifierToResult(modifier: number, rollResult: number): number {
+	protected applyModifierToResult(
+		modifier: number, 
+		rollResult: number, 
+		clamped: boolean = true
+	): number {
 		if (rollResult === 6 || rollResult === 1) {
 			return rollResult;
 		}
