@@ -2,20 +2,25 @@ import { RollsGroup } from "./rollgroups";
 import { FieldValues, getStoredUserInput } from ".././pageData";
 
 export class SaveRolls extends RollsGroup {
+	save: number;
 	ap: number;
-	//invulnrable: number;
+	invulnrable: number;
+	useInvulnSave : boolean;
     constructor(totalWounds: number, userInputValues: FieldValues) {
         super();
+		this.save = getStoredUserInput(userInputValues, "save");
 		this.ap = getStoredUserInput(userInputValues, "ap");
+		this.invulnrable = getStoredUserInput(userInputValues, "invuln");
+		this.useInvulnSave = this.invulnrable > this.save;  
         this.totalRolls = totalWounds;
-
-        this.rollSaves(+userInputValues.save);
+		const saveValueToUse = this.useInvulnSave ? this.invulnrable : this.save;
+        this.rollSaves(saveValueToUse, this.ap);
 		this.successes = this.successValues.length;
     }
 
-    rollSaves(save: number): void {
+    rollSaves(usedSaveValue: number, ap: number): void {
         this.simulateRolls(this.totalRolls, (rollResult) => {
-			rollResult = this.applyModifierToResult(-this.ap, rollResult, false)
+			rollResult = this.applyModifierToResult(-ap, rollResult, false)
             if (rollResult === 1) {
                 this.rolledAOne++;
                 //console.log("rolled a 1 (save roll)");
@@ -23,7 +28,7 @@ export class SaveRolls extends RollsGroup {
                 return null;
             }
 
-            if (rollResult < save) {
+            if (rollResult < usedSaveValue) {
                 this.failValues.push(rollResult);
                 return null;
             } else {

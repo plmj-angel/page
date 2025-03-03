@@ -10,6 +10,7 @@ const htmlIds: string[] = [
 	"defModels", "tough", "save", "invuln", "wounds", "saveMod", "cover", "saveReroll", "noPain", "addUnits", "addUnitsWounds", "leaderWounds"
 ];
 
+//idr...
 //lethalhits: bool, crititalHits: number, reRolls: string, sustainHits: number, critHitRolls: string 
 
 const devValues: FieldValues = {
@@ -28,7 +29,7 @@ const devValues: FieldValues = {
     "defModels": "2",
     "tough": "2",
     "save": "2",
-    "invuln": "0",
+    "invuln": "3",
     "wounds": "5", //hp
     "saveMod": "",
     "cover": false,

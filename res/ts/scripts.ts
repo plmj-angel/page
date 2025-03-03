@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
+
+//TODO
 function checkUnitExists(unit: BaseUnitClass) {
 	//com
 }
