@@ -1,4 +1,4 @@
-import { FieldValues, getPageValues, getStoredUserInput } from "./pageData";
+import { FieldValues, getPageValues, writeTestValuesToPage } from "./pageData";
 import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
@@ -43,11 +43,15 @@ function clickRollBtn(): void {
 	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
 	calculatedData.leaderAttack = leaderAttack;
 	calculatedData.leaderAttackResults = leaderAttackResults;
-	calculatedData.userInput = userInputValues;
+	//calculatedData.userInput = userInputValues;
 	addResultsToGlobalWindow(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
 	///////////////////////////////////////////////////////////////
+}
+
+function loadTestValues(): void {
+	writeTestValuesToPage();
 }
 
 function getTotalWounds(fails: number, damage: number): number {
@@ -62,6 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+	const testButton = document.getElementById("devTest");
+
+	if (testButton) {
+		testButton.addEventListener("click", loadTestValues);
+	}
+});
 
 //TODO
 function checkUnitExists(unit: BaseUnitClass) {

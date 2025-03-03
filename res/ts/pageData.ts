@@ -40,21 +40,8 @@ const devValues: FieldValues = {
 	"leaderWounds": "0"
 }
 
-export function getPageValues(devMode = false): FieldValues {
+export function getPageValues(): FieldValues {
 	const fieldValues: FieldValues = {};
-
-	//testing block - remember to remove bool param!//////////////////////////////
-	if (devMode){
-		htmlIds.forEach(htmlId => {
-			const element = document.getElementById(htmlId);
-			if (element) {
-				const inputElement = element as HTMLInputElement;
-				inputElement.value = devValues[htmlId].toString();
-			}
-		});
-		return devValues;
-	}
-	////////////////////////////////////////////////////////////////////////////
 
 	htmlIds.forEach(htmlId => {
 		const element = document.getElementById(htmlId);
@@ -63,6 +50,16 @@ export function getPageValues(devMode = false): FieldValues {
 		}
 	});
 	return fieldValues;
+}
+
+export function writeTestValuesToPage(): void {
+	htmlIds.forEach(htmlId => {
+		const element = document.getElementById(htmlId);
+		if (element) {
+			const inputElement = element as HTMLInputElement;
+			inputElement.value = devValues[htmlId].toString();
+		}
+	});
 }
 
 export function getStoredUserInput(storedValues: FieldValues, propertyKey: string): number {
