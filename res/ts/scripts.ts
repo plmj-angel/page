@@ -1,4 +1,4 @@
-import { UserInput, writeTestValuesToPage } from "./pageData";
+import { UserInput } from "./pageData";
 import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
@@ -6,6 +6,7 @@ import { SaveRolls } from "./RollGroups/saveRolls";
 import { MainUnitClass } from "./UnitGroups/mainUnit";
 import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnitLmaoLoser";
+import { writeTestValuesToPage } from "./devTesting";
 
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
