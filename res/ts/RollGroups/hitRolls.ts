@@ -1,13 +1,13 @@
 import { RollsGroup } from "./rollgroups";
-import { FieldValues } from ".././pageData";
+import { UserInput } from ".././pageData";
 
 export class HitRolls extends RollsGroup {
 	hitModifier: number;
 
-    constructor(userInputValues: FieldValues) {
+    constructor(userInputValues: UserInput) {
         super();
-		this.hitModifier = +userInputValues.hitMod;
-        this.totalRolls = +userInputValues.attackModels * +userInputValues.attacks;
+		this.hitModifier = userInputValues.hitMod;
+        this.totalRolls = userInputValues.attackModels * userInputValues.attacks;
         this.rolledAOne = 0;
 
         this.getHitRolls(+userInputValues.skill);

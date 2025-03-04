@@ -1,16 +1,16 @@
 import { RollsGroup } from "./rollgroups";
-import { FieldValues, getStoredUserInput } from ".././pageData";
+import { UserInput } from ".././pageData";
 
 export class SaveRolls extends RollsGroup {
 	save: number;
 	ap: number;
 	invulnrable: number;
 	useInvulnSave : boolean;
-    constructor(totalWounds: number, userInputValues: FieldValues) {
+    constructor(totalWounds: number, userInputValues: UserInput) {
         super();
-		this.save = getStoredUserInput(userInputValues, "save");
-		this.ap = getStoredUserInput(userInputValues, "ap");
-		this.invulnrable = getStoredUserInput(userInputValues, "invuln");
+		this.save = userInputValues.save;
+		this.ap = userInputValues.ap;
+		this.invulnrable = userInputValues.invulnrable;
 		this.useInvulnSave = this.invulnrable > this.save;  
         this.totalRolls = totalWounds;
 		const saveValueToUse = this.useInvulnSave ? this.invulnrable : this.save;

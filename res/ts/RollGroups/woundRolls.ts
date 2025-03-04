@@ -1,15 +1,15 @@
 import { RollsGroup } from "./rollgroups";
-import { FieldValues } from ".././pageData";
+import { UserInput } from ".././pageData";
 
 export class WoundRolls extends RollsGroup {
     threshold: number;
 	woundMod: number;
 
-    constructor(totalHits: number, userInputValues: FieldValues) {
+    constructor(totalHits: number, userInputValues: UserInput) {
         super();
-		this.woundMod = +userInputValues.woundMod;
+		this.woundMod = userInputValues.woundMod;
         this.totalRolls = totalHits;
-        this.threshold = this.getWoundThreshold(+userInputValues.str, +userInputValues.tough);
+        this.threshold = this.getWoundThreshold(userInputValues.strength, userInputValues.toughness);
 
         this.getWoundRollSuccesses();
 		this.successes = this.successValues.length;

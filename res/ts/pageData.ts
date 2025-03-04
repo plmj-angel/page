@@ -1,17 +1,18 @@
-export interface FieldValues {
-	[key: string]: string | boolean;
-}
+import { 
+	UserInputSchema, userInputValue, userInputClass, FieldValues 
+} from "./userInputModel";
 
 
-export class UserInput {
-	//page values
+
+export class UserInput implements UserInputSchema {
+	//default values
 	attackModels: number = 0;
-    attacks: number = 0
+    attacks: number = 0;
     skill: number = 0;
     strength: number = 0;
     ap: number = 0;
     damage: number = 0;
-	hitMod: number = 0;
+    hitMod: number = 0;
     woundMod: number = 0;
     devastWound: boolean = false;
     woundCrit: number = 0;
@@ -21,78 +22,65 @@ export class UserInput {
     toughness: number = 0;
     save: number = 0;
     invulnrable: number = 0;
-    wounds: number = 0; //hp
+    wounds: number = 0;
     saveMod: number = 0;
     cover: boolean = false;
     saveReroll: number = 0;
     feelNoPain: number = 0;
-	addUnits: number = 0;
-	addUnitsWounds: number = 0;
-	leaderWounds: number = 0;
-	
-	htmlClass: string = "userInput";
+    addUnits: number = 0;
+    addUnitsWounds: number = 0;
+    leaderWounds: number = 0;
 
 	constructor() {
-		const pageValues = this.getPageValues(this.htmlClass);
-		this.mapPageValuesToProperties(pageValues);
+		const parsedUserData = parseUserInput();
+		Object.assign(this, parsedUserData);
 	}
 
-	getPageValues(elementsClass: string): FieldValues {
-		let pageValues: FieldValues = {};
-		const inputElements = document.querySelectorAll(`.${elementsClass}`);
-		inputElements.forEach((element) => {
-			const inputElement = element as HTMLElement;
-			const elementId = inputElement.id;
-			const elementValue = this.getFieldValue(inputElement);
-			pageValues[elementId] = elementValue;
-		});
-		return pageValues;
-	}
-
-	private getFieldValue(element: HTMLElement) {
-		const inputElement = element as HTMLInputElement;
-		if (inputElement.type === "checkbox") {
-			return inputElement.checked;
-		}
-		return inputElement.value;
-	}
-
-	// Map the values to class properties
-	private mapPageValuesToProperties(pageValues: FieldValues): void {
-		for (const key in pageValues) {
-			if (Object.prototype.hasOwnProperty.call(this, key)) {
-				const value = pageValues[key];
-
-				// Use known property types for assignment
-				this.assignProperty(key, value);
-			}
-		}
-	}
-
-	private assignProperty(key: string, value: string | boolean): void {
-		if (key in this) {
-			// Special cases for boolean properties
-			if (typeof (this as any)[key] === 'boolean') {
-				(this as any)[key] = Boolean(value);
-			}
-			// Number properties
-			else if (typeof (this as any)[key] === 'number') {
-				(this as any)[key] = Number(value);
-			}
-			// String properties
-			else if (typeof (this as any)[key] === 'string') {
-				(this as any)[key] = String(value);
-			}
-		}
-	}
 }
 
+//helpers
+function getNumberValue(id: string): number {
+    const input = document.getElementById(id) as HTMLInputElement;
+    return input ? Number(input.value) || 0 : 0;
+}
 
-export function getStoredUserInput(storedValues: FieldValues, propertyKey: string): number {
-	if (storedValues[propertyKey] === null || storedValues[propertyKey] === undefined ) {
-		return 0;
-	}
-	return +storedValues[propertyKey];
+function getCheckboxValue(id: string): boolean {
+    const input = document.getElementById(id) as HTMLInputElement;
+    return input ? input.checked : false;
+}
+
+function getStringValue(id: string): string {
+    const input = document.getElementById(id) as HTMLInputElement;
+    return input ? input.value : '';
+}
+
+function parseUserInput(): UserInputSchema {
+    return {
+        attackModels: getNumberValue('attackModels'),
+        attacks: getNumberValue('attacks'),
+        skill: getNumberValue('skill'),
+        strength: getNumberValue('strength'),
+        ap: getNumberValue('ap'),
+        damage: getNumberValue('damage'),
+        hitMod: getNumberValue('hitMod'),
+        woundMod: getNumberValue('woundMod'),
+        devastWound: getCheckboxValue('devastWound'),
+        woundCrit: getNumberValue('woundCrit'),
+        woundRoll: getStringValue('woundRoll'),
+        woundReroll: getStringValue('woundReroll'),
+        defenseModels: getNumberValue('defenseModels'),
+        toughness: getNumberValue('toughness'),
+        save: getNumberValue('save'),
+        invulnrable: getNumberValue('invulnrable'),
+        wounds: getNumberValue('wounds'),
+        saveMod: getNumberValue('saveMod'),
+        cover: getCheckboxValue('cover'),
+        saveReroll: getNumberValue('saveReroll'),
+        feelNoPain: getNumberValue('feelNoPain'),
+        addUnits: getNumberValue('addUnits'),
+        addUnitsWounds: getNumberValue('addUnitsWounds'),
+        leaderWounds: getNumberValue('leaderWounds'),
+    };
 }
 
 //idr...

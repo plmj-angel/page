@@ -1,4 +1,4 @@
-import { FieldValues, getStoredUserInput} from "../pageData";
+import { UserInput } from "../pageData";
 import { BaseUnitClass } from "./BaseUnit";
 
 interface LeaderResults {
@@ -10,9 +10,9 @@ interface LeaderResults {
 export class LeaderUnitClass extends BaseUnitClass {
 	isLeaderPresent: boolean;
 
-	constructor(userInput: FieldValues) {
-		super(1, getStoredUserInput(userInput, "leaderWounds"));
-		this.isLeaderPresent = getStoredUserInput(userInput, "leaderWounds") > 0;
+	constructor(userInput: UserInput) {
+		super(1, userInput.leaderWounds);
+		this.isLeaderPresent = userInput.leaderWounds > 0;
 	}
 
 	public applyWoundsToUnit(woundsToApply: number, damage: number): LeaderResults {

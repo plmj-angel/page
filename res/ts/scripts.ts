@@ -1,4 +1,4 @@
-import { UserInput, FieldValues, writeTestValuesToPage } from "./pageData";
+import { UserInput, writeTestValuesToPage } from "./pageData";
 import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
@@ -9,29 +9,28 @@ import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnitLmaoLoser";
 
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
-	const userInputValues: FieldValues = userInputData.getPageValues("userInput");
 
-	console.log(userInputValues);
+	console.log(userInputData);
 	
-	const hitRolls = new HitRolls(userInputValues);
-	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
-	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputValues);
+	const hitRolls = new HitRolls(userInputData);
+	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputData);
+	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputData);
 	
 	const totalWoundsInflicted: number = getTotalWounds(
-		saveRolls.failValues.length, +userInputValues.dmg
+		saveRolls.failValues.length, userInputData.damage
 	);
 
 
-	const mainUnitAttack = new MainUnitClass(userInputValues);
+	const mainUnitAttack = new MainUnitClass(userInputData);
 	const mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
-		totalWoundsInflicted, +userInputValues.dmg);
+		totalWoundsInflicted, userInputData.damage);
 
-	const additionalUnitAttack = new AdditionalUnitClass(userInputValues);
-	const additionalUnitAttackResults = additionalUnitAttack.applyWoundsToUnit			(mainUnitAttackResults.attackWoundsRemaining, +userInputValues.dmg)
+	const additionalUnitAttack = new AdditionalUnitClass(userInputData);
+	const additionalUnitAttackResults = additionalUnitAttack.applyWoundsToUnit			(mainUnitAttackResults.attackWoundsRemaining, userInputData.damage)
 
-	const leaderAttack = new LeaderUnitClass(userInputValues);
+	const leaderAttack = new LeaderUnitClass(userInputData);
 	const leaderAttackResults = leaderAttack.applyWoundsToUnit(
-		additionalUnitAttackResults.attackWoundsRemaining, +userInputValues.dmg
+		additionalUnitAttackResults.attackWoundsRemaining, userInputData.damage
 	);
 
 	
@@ -46,7 +45,7 @@ function clickRollBtn(): void {
 	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
 	calculatedData.leaderAttack = leaderAttack;
 	calculatedData.leaderAttackResults = leaderAttackResults;
-	//calculatedData.userInput = userInputValues;
+	//calculatedData.userInput = userInputData;
 	addResultsToGlobalWindow(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //TODO
 function checkUnitExists(unit: BaseUnitClass) {
-	//com
+	
 }
 
 
@@ -90,7 +89,7 @@ function checkUnitExists(unit: BaseUnitClass) {
 
 
 //for Nacho testing
-function writeToTestArea(dataObject: FieldValues, testAreaId: string): void {
+function writeToTestArea(dataObject: Record<string, any>, testAreaId: string): void {
 	const testArea = document.getElementById(testAreaId);
 	if (!testArea) {
 		throw new Error("you done goofed the test area id smh");

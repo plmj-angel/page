@@ -1,12 +1,9 @@
-import { FieldValues, getStoredUserInput} from "../pageData";
+import { UserInput } from "../pageData";
 import { BaseUnitClass, UnitAttackResults } from "./BaseUnit";
 
 export class MainUnitClass extends BaseUnitClass {
-	constructor(userInput: FieldValues) {
-		super(
-			getStoredUserInput(userInput, "defModels"), 
-			getStoredUserInput(userInput, "wounds")
-		);
+	constructor(userInput: UserInput) {
+		super(userInput.defenseModels, userInput.wounds);
 	}
 
 	public applyWoundsToUnit(woundsToApply: number, damage: number): UnitAttackResults {
