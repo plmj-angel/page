@@ -7,7 +7,7 @@ export class HitRolls extends RollsGroup {
     constructor(userInputValues: FieldValues) {
         super();
 		this.hitModifier = +userInputValues.hitMod;
-        this.totalRolls = +userInputValues.models * +userInputValues.attacks;
+        this.totalRolls = +userInputValues.attackModels * +userInputValues.attacks;
         this.rolledAOne = 0;
 
         this.getHitRolls(+userInputValues.skill);

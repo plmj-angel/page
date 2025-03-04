@@ -1,4 +1,4 @@
-import { FieldValues, getPageValues, writeTestValuesToPage } from "./pageData";
+import { UserInput, FieldValues, writeTestValuesToPage } from "./pageData";
 import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
@@ -8,7 +8,10 @@ import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnitLmaoLoser";
 
 function clickRollBtn(): void {
-	const userInputValues: FieldValues = getPageValues();
+	const userInputData = new UserInput();
+	const userInputValues: FieldValues = userInputData.getPageValues("userInput");
+
+	console.log(userInputValues);
 	
 	const hitRolls = new HitRolls(userInputValues);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputValues);
