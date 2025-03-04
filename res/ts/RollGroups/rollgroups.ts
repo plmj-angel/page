@@ -42,8 +42,10 @@ export class RollsGroup {
 		if (rollResult === 6 || rollResult === 1) {
 			return rollResult;
 		}
-		if (modifier > 1 || modifier < -1) {
-			throw new Error(`invalid modifier value: ${modifier}`);
+		if (clamped) {
+			if (modifier > 1 || modifier < -1) {
+				throw new Error(`invalid modifier value: ${modifier}`);
+			}
 		}
 		return rollResult + modifier;
 	}

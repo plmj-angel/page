@@ -1,4 +1,4 @@
-import { UserInputSchema, userInputValue, userInputClass } from "./userInputModel";
+import { UserInputSchema } from "./userInputModel";
 
 export class UserInput implements UserInputSchema {
 	//default values

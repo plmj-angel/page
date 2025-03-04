@@ -32,6 +32,3 @@ export interface userInputValue {
 export interface FieldValues {
 	[key: string]: string | boolean;
 }
-
-//constants 
-export const userInputClass = "userInput"
