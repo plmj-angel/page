@@ -1,27 +1,38 @@
 import { UserInput } from "./pageData";
+import { startUserInputValidatation } from "./inputValidation";
 import { BaseUnitClass } from "./UnitGroups/BaseUnit";
 import { HitRolls } from "./RollGroups/hitRolls";
 import { WoundRolls } from "./RollGroups/woundRolls";
 import { SaveRolls } from "./RollGroups/saveRolls";
 import { MainUnitClass } from "./UnitGroups/mainUnit";
 import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
-import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnitLmaoLoser";
+import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
 import { writeTestValuesToPage } from "./devTesting";
+
+document.addEventListener("DOMContentLoaded", () => {
+	startUserInputValidatation();
+	
+	const rollButton = document.getElementById("rollButton");
+	const testButton = document.getElementById("devTest");
+
+	if (rollButton) {
+		rollButton.addEventListener("click", clickRollBtn);
+	}
+	if (testButton) {
+		testButton.addEventListener("click", loadTestValues);
+	}
+	
+});
 
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
-
-	console.log(userInputData);
-	
 	const hitRolls = new HitRolls(userInputData);
 	const woundRolls = new WoundRolls(hitRolls.successValues.length, userInputData);
 	const saveRolls = new SaveRolls(woundRolls.successValues.length, userInputData);
-	
+
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, userInputData.damage
 	);
-
-
 	const mainUnitAttack = new MainUnitClass(userInputData);
 	const mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
 		totalWoundsInflicted, userInputData.damage);
@@ -61,26 +72,6 @@ function getTotalWounds(fails: number, damage: number): number {
 	return fails * damage;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	const rollButton = document.getElementById("rollButton");
-
-	if (rollButton) {
-		rollButton.addEventListener("click", clickRollBtn);
-	}
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-	const testButton = document.getElementById("devTest");
-
-	if (testButton) {
-		testButton.addEventListener("click", loadTestValues);
-	}
-});
-
-//TODO
-function checkUnitExists(unit: BaseUnitClass) {
-	
-}
 
 
 

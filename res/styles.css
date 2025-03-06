@@ -22,6 +22,13 @@
 	#supportCheckbox:checked ~ div span {
 	  opacity: 1;
 	}
+
+	.field-error {
+		color: red;
+		font-size: 0.85em;
+		margin-left: 8px;
+		display: inline-block;
+	}
   
 	.formbold-main-wrapper {
 	  display: flex;

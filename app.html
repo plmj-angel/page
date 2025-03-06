@@ -26,19 +26,19 @@
 						<label for="attackModels" class="formbold-form-label">
 							Models
 						</label>
-						<input type="text" type="text" id="attackModels" value="1" class="formbold-form-input stat userInput">
+						<input type="number" id="attackModels" value="1" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="attacks" class="formbold-form-label">
 							Attacks
 						</label>
-						<input type="text" type="text" id="attacks" class="formbold-form-input stat userInput">
+						<input type="number" id="attacks" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="skill" class="formbold-form-label">
 							BS/WS
 						</label>
-						<input type="text" type="text" id="skill" class="formbold-form-input stat userInput">
+						<input type="number" id="skill" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 
@@ -47,31 +47,31 @@
 						<label for="strength" class="formbold-form-label">
 							Strength
 						</label>
-						<input type="text" type="text" id="strength" class="formbold-form-input stat userInput">
+						<input type="number" id="strength" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="ap" class="formbold-form-label">
 							AP
 						</label>
-						<input type="text" type="text" id="ap" class="formbold-form-input stat userInput">
+						<input type="number" id="ap" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="damage" class="formbold-form-label">
 							Damage
 						</label>
-						<input type="text" type="text" id="damage" class="formbold-form-input stat userInput">
+						<input type="number" id="damage" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 				<div class="modifiers">
 					<h3>Attack Modifiers</h3>
-					<p><label>Hit Modifier: <input type="text" id="hitMod" class="stat userInput"></label>
+					<p><label>Hit Modifier: <input type="number" id="hitMod" class="stat userInput"></label>
 					</p>
-					<p><label>Wound Modifier: <input type="text" id="woundMod" class="stat userInput" ></label>
+					<p><label>Wound Modifier: <input type="number" id="woundMod" class="stat userInput" ></label>
 					</p>
 					<p>
 						<label><input type="checkbox" id="devastWound" value="1" class="stat userInput">Devastating Wounds</label>
 					</p>
-					<p><label>Critical Wound :<input type="text" id="woundCrit" class="stat userInput"></label>
+					<p><label>Critical Wound :<input type="number" id="woundCrit" class="stat userInput"></label>
 					</p>
 					<p>
 						Critical wound rolls:
@@ -99,19 +99,19 @@
 						<label for="defenseModels" class="formbold-form-label">
 							Models
 						</label>
-						<input type="text" type="text" id="defenseModels" value="1" class="formbold-form-input stat userInput">
+						<input type="number" id="defenseModels" value="1" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="toughness" class="formbold-form-label">
 							Toughness
 						</label>
-						<input type="text" type="text" id="toughness" class="formbold-form-input stat userInput">
+						<input type="number" id="toughness" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="save" class="formbold-form-label">
 							Save
 						</label>
-						<input type="text" type="text" id="save" class="formbold-form-input stat userInput">
+						<input type="number" id="save" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 
@@ -120,13 +120,13 @@
 						<label for="invulnrable" class="formbold-form-label">
 							Invulnerable
 						</label>
-						<input type="text" type="text" id="invulnrable" class="formbold-form-input stat userInput">
+						<input type="number" type="number" id="invulnrable" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="wounds" class="formbold-form-label">
 							Wounds
 						</label>
-						<input type="text" type="text" id="wounds" class="formbold-form-input stat userInput">
+						<input type="number" type="number" id="wounds" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 				<div class="formbold-input-flex">
@@ -135,13 +135,13 @@
 						<label for="addUnits" class="formbold-form-label">
 							models
 						</label>
-						<input type="text" type="text" id="addUnits" class="formbold-form-input stat userInput">
+						<input type="number" id="addUnits" class="formbold-form-input stat userInput">
 					</div>
 					<div>
 						<label for="addUnitsWounds" class="formbold-form-label">
 							Wounds
 						</label>
-						<input type="text" type="text" id="addUnitsWounds" class="formbold-form-input stat userInput">
+						<input type="number" id="addUnitsWounds" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 				<div class="formbold-input-flex">
@@ -150,12 +150,12 @@
 						<label for="leaderWounds" class="formbold-form-label">
 							Wounds
 						</label>
-						<input type="text" type="text" id="leaderWounds" class="formbold-form-input stat userInput">
+						<input type="number" id="leaderWounds" class="formbold-form-input stat userInput">
 					</div>
 				</div>
 				<div class="modifiers">
 					<h3>Defenese Modifiers</h3>
-					<p><label>Save Modifier: <input type="text" id="saveMod"></label>
+					<p><label>Save Modifier: <input type="number" id="saveMod"></label>
 					</p>
 					<p>
 						<label><input type="checkbox" id="cover" value="1">Cover</label>
@@ -169,7 +169,7 @@
 							<option value="inv_fail">Failed invulnerable save rolls</option>
 						</select>
 					</p>
-					<p><label>Feel No Pain: <input type="text" id="noPain"></label>
+					<p><label>Feel No Pain: <input type="number" id="noPain"></label>
 					</p>
 				</div>
 			</div>
