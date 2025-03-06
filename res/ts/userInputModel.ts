@@ -16,7 +16,7 @@ export interface UserInputSchema {
 	save: number;
 	invulnrable: number;
 	wounds: number;
-	saveMod: number;
+	saveMod: string;
 	cover: boolean;
 	saveReroll: number;
 	feelNoPain: number;

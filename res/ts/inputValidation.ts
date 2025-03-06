@@ -1,14 +1,29 @@
 export function startUserInputValidatation() {
     const fieldsToValidate = [
+        { id: 'attackModels', validate: validatePositiveNumber },
         { id: 'attacks', validate: validatePositiveNumber },
+        { id: 'skill', validate: validatePositiveNumber },
         { id: 'strength', validate: validatePositiveNumber },
+        { id: 'ap', validate: validateNonNegativeNumber }, // AP could be 0
+        { id: 'damage', validate: validatePositiveNumber },
+        { id: 'defenseModels', validate: validatePositiveNumber },
         { id: 'toughness', validate: validatePositiveNumber },
-        { id: 'hitMod', validate: validateModifierRange },
-        { id: 'woundMod', validate: validateModifierRange },
-        { id: 'saveMod', validate: validateModifierRange },
+        { id: 'save', validate: validatePositiveNumber },
+        { id: 'invulnrable', validate: validatePositiveNumber },
+        { id: 'wounds', validate: validatePositiveNumber },
         { id: 'addUnits', validate: validateNonNegativeNumber },
         { id: 'addUnitsWounds', validate: validatePositiveNumber },
-        { id: 'leaderWounds', validate: validatePositiveNumber }
+        { id: 'leaderWounds', validate: validatePositiveNumber },
+
+        { id: 'hitMod', validate: (v:string) => validateModifierRange(v, -1, 1) },
+        { id: 'woundMod', validate: (v:string) => validateModifierRange(v, -1, 1) },
+        { id: 'saveMod', validate: (v:string) => validateModifierRange(v, -1, 1) },
+
+        //TODO think about how to handle this
+        // { id: 'woundRoll', validate: validateWoundRollString },
+        // { id: 'woundReroll', validate: validateWoundRerollString },
+		//{ id: 'saveReroll', validate: validateNonNegativeNumber },
+        //{ id: 'feelNoPain', validate: validateNonNegativeNumber }
     ];
 
     fieldsToValidate.forEach(({ id, validate }) => {

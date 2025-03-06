@@ -19,7 +19,7 @@ export class UserInput implements UserInputSchema {
     save: number = 0;
     invulnrable: number = 0;
     wounds: number = 0;
-    saveMod: number = 0;
+    saveMod: string = "";
     cover: boolean = false;
     saveReroll: number = 0;
     feelNoPain: number = 0;
@@ -70,7 +70,7 @@ function parseUserInput(): UserInputSchema {
         save: getNumberValue('save'),
         invulnrable: getNumberValue('invulnrable'),
         wounds: getNumberValue('wounds'),
-        saveMod: getNumberValue('saveMod'),
+        saveMod: getStringValue('saveMod'),
         cover: getCheckboxValue('cover'),
         saveReroll: getNumberValue('saveReroll'),
         feelNoPain: getNumberValue('feelNoPain'),
