@@ -3,9 +3,9 @@ export function startUserInputValidatation() {
         { id: 'attacks', validate: validatePositiveNumber },
         { id: 'strength', validate: validatePositiveNumber },
         { id: 'toughness', validate: validatePositiveNumber },
-        { id: 'hitModifier', validate: validateModifierRange },
-        { id: 'woundModifier', validate: validateModifierRange },
-        { id: 'saveModifier', validate: validateModifierRange },
+        { id: 'hitMod', validate: validateModifierRange },
+        { id: 'woundMod', validate: validateModifierRange },
+        { id: 'saveMod', validate: validateModifierRange },
         { id: 'addUnits', validate: validateNonNegativeNumber },
         { id: 'addUnitsWounds', validate: validatePositiveNumber },
         { id: 'leaderWounds', validate: validatePositiveNumber }
@@ -55,9 +55,11 @@ function validateNonNegativeNumber(value: string): string | null {
     return null;
 }
 
-function validateModifierRange(value: string): string | null {
+function validateModifierRange(value: string, startRange: number = -1, endRange:number = 1): string | null {
     const num = Number(value);
     if (value.trim() === '') return null;
-    if (isNaN(num) || num < -3 || num > 3) return 'Must be between -3 and +3';
+    if (isNaN(num) || num < startRange || num > endRange) {
+		return `Must be between ${startRange} and ${endRange}`;
+	}
     return null;
 }
