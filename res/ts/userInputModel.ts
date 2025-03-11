@@ -8,6 +8,7 @@ export interface UserInputSchema {
 	hitMod: number;
 	woundMod: number;
 	devastWound: boolean;
+	lethalHit: boolean;
 	woundCrit: number;
 	woundRoll: string;
 	woundReroll: string;

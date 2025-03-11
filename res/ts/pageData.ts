@@ -11,6 +11,7 @@ export class UserInput implements UserInputSchema {
     hitMod: number = 0;
     woundMod: number = 0;
     devastWound: boolean = false;
+	lethalHit: boolean = false;
     woundCrit: number = 0;
     woundRoll: string = "";
     woundReroll: string = "";
@@ -62,6 +63,7 @@ function parseUserInput(): UserInputSchema {
         hitMod: getNumberValue('hitMod'),
         woundMod: getNumberValue('woundMod'),
         devastWound: getCheckboxValue('devastWound'),
+		lethalHit: getCheckboxValue('lethalHit'),
         woundCrit: getNumberValue('woundCrit'),
         woundRoll: getStringValue('woundRoll'),
         woundReroll: getStringValue('woundReroll'),
