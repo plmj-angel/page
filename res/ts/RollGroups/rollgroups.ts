@@ -48,7 +48,7 @@ export class RollsGroup {
 			}
 		}
 		let modifiedResult: number = rollResult + modifier;
-		if (modifiedResult < 0) modifiedResult = 0;
+		if (modifiedResult < 1) modifiedResult = 1;
 		return modifiedResult;
 	}
 }
