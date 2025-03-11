@@ -47,6 +47,8 @@ export class RollsGroup {
 				throw new Error(`invalid modifier value: ${modifier}`);
 			}
 		}
-		return rollResult + modifier;
+		let modifiedResult: number = rollResult + modifier;
+		if (modifiedResult < 0) modifiedResult = 0;
+		return modifiedResult;
 	}
 }

@@ -23,7 +23,6 @@ export class SaveRolls extends RollsGroup {
 			rollResult = this.applyModifierToResult(-ap, rollResult, false)
             if (rollResult === 1) {
                 this.rolledAOne++;
-                //console.log("rolled a 1 (save roll)");
                 this.failValues.push(rollResult);
                 return null;
             }

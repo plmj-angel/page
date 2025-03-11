@@ -57,7 +57,7 @@ function clickRollBtn(): void {
 	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
 	calculatedData.leaderAttack = leaderAttack;
 	calculatedData.leaderAttackResults = leaderAttackResults;
-	//calculatedData.userInput = userInputData;
+	console.log(userInputData);
 	addResultsToGlobalWindow(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
