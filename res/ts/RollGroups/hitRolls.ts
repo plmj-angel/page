@@ -21,7 +21,7 @@ export class HitRolls extends RollsGroup {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
 			if (lethalHit && rollResult === 6) {
 				this.lethalHits++;
-				return rollResult;
+				return null;
 			}
 			let modifiedRollResult = this.applyModifierToResult(this.hitModifier, rollResult);
             if (modifiedRollResult === 1) {
