@@ -6,16 +6,19 @@ export class SaveRolls extends RollsGroup {
 	ap: number;
 	invulnrable: number;
 	useInvulnSave : boolean;
-    constructor(totalWounds: number, userInputValues: UserInput) {
+	devastatingWounds: number = 0;
+    constructor(totalWounds: number, devastatingWounds: number, userInputValues: UserInput) {
         super();
 		this.save = userInputValues.save;
 		this.ap = userInputValues.ap;
 		this.invulnrable = userInputValues.invulnrable;
 		this.useInvulnSave = this.invulnrable < this.save + this.ap;  
         this.totalRolls = totalWounds;
+		this.devastatingWounds = devastatingWounds;
 		const saveValueToUse = this.useInvulnSave ? this.invulnrable : this.save;
         this.rollSaves(saveValueToUse, this.ap);
 		this.successes = this.successValues.length;
+		this.fails += this.devastatingWounds
     }
 
     rollSaves(usedSaveValue: number, ap: number): void {

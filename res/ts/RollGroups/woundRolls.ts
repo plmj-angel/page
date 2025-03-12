@@ -25,7 +25,7 @@ export class WoundRolls extends RollsGroup {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
 			if (devastatingWoundTicked && rollResult === 6) {
 				this.devastatingWounds++;
-				return rollResult;
+				return null;
 			}
 			rollResult = this.applyModifierToResult(this.woundMod, rollResult);
             if (rollResult >= this.threshold) {
