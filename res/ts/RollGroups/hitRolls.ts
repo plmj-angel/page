@@ -3,6 +3,8 @@ import { UserInput } from ".././pageData";
 
 export class HitRolls extends RollsGroup {
 	hitModifier: number;
+	lethalHitTicked: boolean;
+	lethalHits: number = 0;
 
     constructor(userInputValues: UserInput) {
         super();
@@ -10,24 +12,29 @@ export class HitRolls extends RollsGroup {
         this.totalRolls = userInputValues.attackModels * userInputValues.attacks;
         this.rolledAOne = 0;
 
-        this.getHitRolls(+userInputValues.skill);
+		this.lethalHitTicked = userInputValues.lethalHit;
+        this.getHitRolls(+userInputValues.skill, this.lethalHitTicked);
 		this.successes = this.successValues.length;
     }
 
-    getHitRolls(skill: number): void {
+    getHitRolls(skill: number, lethalHit:boolean): void {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
-			rollResult = this.applyModifierToResult(this.hitModifier, rollResult);
-            if (rollResult === 1) {
+			if (lethalHit && rollResult === 6) {
+				this.lethalHits++;
+				return rollResult;
+			}
+			let modifiedRollResult = this.applyModifierToResult(this.hitModifier, rollResult);
+            if (modifiedRollResult === 1) {
                 this.rolledAOne++;
                 //console.log("rolled a 1");
-                this.failValues.push(rollResult);
+                this.failValues.push(modifiedRollResult);
                 return null;
             }
 
-            if (rollResult >= skill) {
-                return rollResult;
+            if (modifiedRollResult >= skill) {
+                return modifiedRollResult;
             } else {
-                this.failValues.push(rollResult);
+                this.failValues.push(modifiedRollResult);
                 return null;
             }
         });

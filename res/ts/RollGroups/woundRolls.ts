@@ -4,19 +4,26 @@ import { UserInput } from ".././pageData";
 export class WoundRolls extends RollsGroup {
     threshold: number;
 	woundMod: number;
+	devastatingWoundTicked: boolean;
+	devastatingWounds: number = 0;
 
     constructor(totalHits: number, userInputValues: UserInput) {
         super();
 		this.woundMod = userInputValues.woundMod;
         this.totalRolls = totalHits;
         this.threshold = this.getWoundThreshold(userInputValues.strength, userInputValues.toughness);
-
-        this.getWoundRollSuccesses();
+		
+		this.devastatingWoundTicked = userInputValues.devastWound;
+        this.getWoundRollSuccesses(this.devastatingWoundTicked);
 		this.successes = this.successValues.length;
     }
 
-    getWoundRollSuccesses(): void {
+    getWoundRollSuccesses(devastatingWoundTicked: boolean): void {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
+			if (devastatingWoundTicked && rollResult === 6) {
+				this.devastatingWounds++;
+				return rollResult;
+			}
 			rollResult = this.applyModifierToResult(this.woundMod, rollResult);
             if (rollResult >= this.threshold) {
                 return rollResult;

@@ -51,4 +51,10 @@ export class RollsGroup {
 		if (modifiedResult < 1) modifiedResult = 1;
 		return modifiedResult;
 	}
+	protected checkNaturalRollValue (result: number, numberToMatchAgainst: number = 1): number | null {
+		if (result === numberToMatchAgainst) {
+			return result;
+		}
+		return null;
+	}
 }
