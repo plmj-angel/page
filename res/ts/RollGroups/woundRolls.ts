@@ -12,6 +12,8 @@ export class WoundRolls extends RollsGroup {
         super();
 		this.woundMod = userInputValues.woundMod;
         this.totalRolls = totalHits;
+		if (this.lethalHits > 0) this.totalRolls -= this.lethalHits;
+		if (this.totalRolls < 0) throw new Error (`somehow angel messed up the code and the wound roll is attempting to roll a negative ammount. ${this.totalRolls} to be precise...`);
         this.threshold = this.getWoundThreshold(userInputValues.strength, userInputValues.toughness);
 		
 		this.lethalHits = automaticSuccesses;

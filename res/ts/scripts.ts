@@ -9,6 +9,21 @@ import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
 import { writeTestValuesToPage } from "./devTesting";
 
+document.addEventListener("DOMContentLoaded", () => {
+	startUserInputValidatation();
+	
+	const rollButton = document.getElementById("rollButton");
+	const testButton = document.getElementById("devTest");
+
+	if (rollButton) {
+		rollButton.addEventListener("click", clickRollBtn);
+	}
+	if (testButton) {
+		testButton.addEventListener("click", loadTestValues);
+	}
+	
+});
+
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
 	const hitRolls = new HitRolls(userInputData);
@@ -30,20 +45,7 @@ function clickRollBtn(): void {
 		additionalUnitAttackResults.attackWoundsRemaining, userInputData.damage
 	);
 
-	document.addEventListener("DOMContentLoaded", () => {
-		startUserInputValidatation();
-		
-		const rollButton = document.getElementById("rollButton");
-		const testButton = document.getElementById("devTest");
 	
-		if (rollButton) {
-			rollButton.addEventListener("click", clickRollBtn);
-		}
-		if (testButton) {
-			testButton.addEventListener("click", loadTestValues);
-		}
-		
-	});
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
