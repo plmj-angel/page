@@ -15,6 +15,7 @@ export class SaveRolls extends RollsGroup {
 		this.ap = Math.abs(userInputValues.ap);
 		this.invulnrable = userInputValues.invulnrable;
 		this.useInvulnSave = this.invulnrable < this.save + this.ap;
+		if (this.invulnrable === 0) this.useInvulnSave = false;
 
 		this.totalRolls = totalWounds;
 		if (this.devastatingWounds > 0) this.totalRolls -= this.devastatingWounds;
