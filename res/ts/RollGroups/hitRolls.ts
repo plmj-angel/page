@@ -14,8 +14,12 @@ export class HitRolls extends RollsGroup {
 
 		this.lethalHitTicked = userInputValues.lethalHit;
         this.getHitRolls(+userInputValues.skill, this.lethalHitTicked);
-		this.successes = this.successValues.length;
-		this.successes += this.lethalHits;
+		this.totalFails = this.failValues.length;
+		this.successValuesLength = this.successValues.length;
+		this.failValuesLength = this.failValues.length;
+
+		this.totalSuccesses = this.successValuesLength;
+		this.totalSuccesses += this.lethalHits;
     }
 
     getHitRolls(skill: number, lethalHit:boolean): void {
@@ -38,6 +42,5 @@ export class HitRolls extends RollsGroup {
                 return null;
             }
         });
-		this.fails = this.failValues.length;
     }
 }

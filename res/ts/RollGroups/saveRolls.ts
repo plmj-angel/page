@@ -24,8 +24,12 @@ export class SaveRolls extends RollsGroup {
 
 		const saveValueToUse = this.useInvulnSave ? this.invulnrable : this.save;
         this.rollSaves(saveValueToUse, this.ap);
-		this.successes = this.successValues.length;
-		this.fails += this.devastatingWounds
+		this.totalFails = this.failValues.length;
+		this.successValuesLength = this.successValues.length;
+		this.failValuesLength = this.failValues.length;
+
+		this.totalSuccesses = this.successValuesLength;
+		this.totalFails += this.devastatingWounds
     }
 
     rollSaves(usedSaveValue: number, ap: number): void {
@@ -45,6 +49,6 @@ export class SaveRolls extends RollsGroup {
                 return rollResult;
             }
         });
-		this.fails = this.failValues.length;
+		this.totalFails = this.failValues.length;
     }
 }

@@ -25,15 +25,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function clickRollBtn(): void {
+	//formData
 	const userInputData = new UserInput();
+
+	//the 3 roll groups
 	const hitRolls = new HitRolls(userInputData);
-	const woundRolls = new WoundRolls(hitRolls.successes, hitRolls.lethalHits,userInputData);
+	const woundRolls = new WoundRolls(hitRolls.totalSuccesses, hitRolls.lethalHits,userInputData);
 	const saveRolls = new SaveRolls(
-		woundRolls.successes, woundRolls.devastatingWounds, userInputData
+		woundRolls.totalSuccesses, woundRolls.devastatingWounds, userInputData
 	);
 
+
+	//apply wounds to unit
 	const totalWoundsInflicted: number = getTotalWounds(
-		saveRolls.failValues.length, userInputData.damage
+		saveRolls.totalFails, userInputData.damage
 	);
 	const mainUnitAttack = new MainUnitClass(userInputData);
 	const mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
