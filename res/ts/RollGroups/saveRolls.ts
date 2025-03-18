@@ -12,7 +12,7 @@ export class SaveRolls extends RollsGroup {
         super();
 		this.devastatingWounds = automaticSuccesses;
 		this.save = userInputValues.save;
-		this.ap = userInputValues.ap;
+		this.ap = Math.abs(userInputValues.ap);
 		this.invulnrable = userInputValues.invulnrable;
 		this.useInvulnSave = this.invulnrable < this.save + this.ap;
 
@@ -24,6 +24,7 @@ export class SaveRolls extends RollsGroup {
 
 		const saveValueToUse = this.useInvulnSave ? this.invulnrable : this.save;
         this.rollSaves(saveValueToUse, this.ap);
+
 		this.totalFails = this.failValues.length;
 		this.successValuesLength = this.successValues.length;
 		this.failValuesLength = this.failValues.length;
@@ -34,7 +35,7 @@ export class SaveRolls extends RollsGroup {
 
     rollSaves(usedSaveValue: number, ap: number): void {
         this.simulateRolls(this.totalRolls, (rollResult) => {
-			rollResult = this.applyModifierToResult(-ap, rollResult, false)
+			rollResult = this.applyModifierToResult(-ap, rollResult, false);
             if (rollResult === 1) {
                 this.rolledAOne++;
                 this.failValues.push(rollResult);
@@ -49,6 +50,6 @@ export class SaveRolls extends RollsGroup {
                 return rollResult;
             }
         });
-		this.totalFails = this.failValues.length;
+
     }
 }

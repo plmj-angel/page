@@ -30,7 +30,9 @@ function clickRollBtn(): void {
 
 	//the 3 roll groups
 	const hitRolls = new HitRolls(userInputData);
-	const woundRolls = new WoundRolls(hitRolls.totalSuccesses, hitRolls.lethalHits,userInputData);
+	const woundRolls = new WoundRolls(
+		hitRolls.totalSuccesses, hitRolls.lethalHits ,userInputData
+	);
 	const saveRolls = new SaveRolls(
 		woundRolls.totalSuccesses, woundRolls.devastatingWounds, userInputData
 	);
