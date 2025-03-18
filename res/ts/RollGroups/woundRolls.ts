@@ -10,13 +10,16 @@ export class WoundRolls extends RollsGroup {
 
     constructor(totalHits: number, automaticSuccesses: number, userInputValues: UserInput) {
         super();
+		this.lethalHits = automaticSuccesses;
 		this.woundMod = userInputValues.woundMod;
-        this.totalRolls = totalHits;
-		if (this.lethalHits > 0) this.totalRolls -= this.lethalHits;
-		if (this.totalRolls < 0) throw new Error (`somehow angel messed up the code and the wound roll is attempting to roll a negative ammount. ${this.totalRolls} to be precise...`);
         this.threshold = this.getWoundThreshold(userInputValues.strength, userInputValues.toughness);
 		
-		this.lethalHits = automaticSuccesses;
+        this.totalRolls = totalHits;
+		if (this.lethalHits > 0) this.totalRolls -= this.lethalHits;
+		if (this.totalRolls < 0) {
+			throw new Error (`Somehow angel messed up the code and the wound roll is attempting to roll a negative ammount. ${this.totalRolls} to be precise...`);
+		}
+		
 		this.devastatingWoundTicked = userInputValues.devastWound;
         this.getWoundRollSuccesses(this.devastatingWoundTicked, this.lethalHits);
 		this.successes = this.successValues.length;
@@ -35,7 +38,6 @@ export class WoundRolls extends RollsGroup {
             } else {
                 if (rollResult === 1) { 
                     this.rolledAOne++;
-                    //console.log("rolled a 1 (wound roll)"); 
                 }
 
                 this.failValues.push(rollResult);

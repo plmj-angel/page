@@ -27,8 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
 	const hitRolls = new HitRolls(userInputData);
-	const woundRolls = new WoundRolls(hitRolls.successValues.length, hitRolls.lethalHits,userInputData);
-	const saveRolls = new SaveRolls(woundRolls.successValues.length, woundRolls.devastatingWounds,userInputData);
+	const woundRolls = new WoundRolls(hitRolls.successes, hitRolls.lethalHits,userInputData);
+	const saveRolls = new SaveRolls(
+		woundRolls.successes, woundRolls.devastatingWounds, userInputData
+	);
 
 	const totalWoundsInflicted: number = getTotalWounds(
 		saveRolls.failValues.length, userInputData.damage

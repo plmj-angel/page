@@ -15,6 +15,7 @@ export class HitRolls extends RollsGroup {
 		this.lethalHitTicked = userInputValues.lethalHit;
         this.getHitRolls(+userInputValues.skill, this.lethalHitTicked);
 		this.successes = this.successValues.length;
+		this.successes += this.lethalHits;
     }
 
     getHitRolls(skill: number, lethalHit:boolean): void {
@@ -26,7 +27,6 @@ export class HitRolls extends RollsGroup {
 			let modifiedRollResult = this.applyModifierToResult(this.hitModifier, rollResult);
             if (modifiedRollResult === 1) {
                 this.rolledAOne++;
-                //console.log("rolled a 1");
                 this.failValues.push(modifiedRollResult);
                 return null;
             }
