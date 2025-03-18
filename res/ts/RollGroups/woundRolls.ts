@@ -28,6 +28,7 @@ export class WoundRolls extends RollsGroup {
 
 		this.totalSuccesses = this.successValuesLength;
 		this.totalSuccesses += this.lethalHits;
+		this.totalSuccesses += this.devastatingWounds;
     }
 
     getWoundRollSuccesses(devastatingWoundTicked: boolean, lethalHits: number): void {
