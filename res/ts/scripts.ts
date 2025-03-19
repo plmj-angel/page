@@ -8,6 +8,7 @@ import { MainUnitClass } from "./UnitGroups/mainUnit";
 import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
 import { writeTestValuesToPage } from "./devTesting";
+import { TurnManager } from "./turnManager";
 
 document.addEventListener("DOMContentLoaded", () => {
 	startUserInputValidatation();
@@ -27,21 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function clickRollBtn(): void {
 	//formData
 	const userInputData = new UserInput();
-
-	//the 3 roll groups
-	const hitRolls = new HitRolls(userInputData);
-	const woundRolls = new WoundRolls(
-		hitRolls.totalSuccesses, hitRolls.lethalHits ,userInputData
-	);
-	const saveRolls = new SaveRolls(
-		woundRolls.totalSuccesses, woundRolls.devastatingWounds, userInputData
-	);
+	const turnResults = new TurnManager(userInputData);
 
 
+	const woundsInflicted: number = turnResults.damageOutput;
 	//apply wounds to unit
-	const totalWoundsInflicted: number = getTotalWounds(
-		saveRolls.totalFails, userInputData.damage
-	);
+	const totalWoundsInflicted: number = getTotalWounds(woundsInflicted, userInputData.damage);
 	const mainUnitAttack = new MainUnitClass(userInputData);
 	const mainUnitAttackResults = mainUnitAttack.applyWoundsToUnit(
 		totalWoundsInflicted, userInputData.damage);
@@ -58,9 +50,9 @@ function clickRollBtn(): void {
 
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
-	calculatedData.hitRolls = hitRolls;
-	calculatedData.woundRoll = woundRolls;
-	calculatedData.saveRoll = saveRolls;
+	calculatedData.hitRolls = turnResults.hitRolls;
+	calculatedData.woundRoll = turnResults.woundRolls;
+	calculatedData.saveRoll = turnResults.saveRolls;
 	calculatedData.mainUnitAttack = mainUnitAttack;
 	calculatedData.mainUnitAttackResults = mainUnitAttackResults
 	calculatedData.additionalUnitAttack = additionalUnitAttack;
