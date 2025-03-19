@@ -1,9 +1,5 @@
 import { UserInput } from "./pageData";
 import { startUserInputValidatation } from "./inputValidation";
-import { BaseUnitClass } from "./UnitGroups/BaseUnit";
-import { HitRolls } from "./RollGroups/hitRolls";
-import { WoundRolls } from "./RollGroups/woundRolls";
-import { SaveRolls } from "./RollGroups/saveRolls";
 import { MainUnitClass } from "./UnitGroups/mainUnit";
 import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
@@ -26,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function clickRollBtn(): void {
-	//formData
 	const userInputData = new UserInput();
 	const turnResults = new TurnManager(userInputData);
 

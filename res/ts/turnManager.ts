@@ -18,14 +18,12 @@ export class TurnManager {
 		this.additionalSaveRolls = this.hitRolls.lethalHits;
 		//space for more hit rolls stuffs
 
-		this.woundRolls = new WoundRolls(this.hitRolls.totalSuccesses, this.additionalSaveRolls, formData);
+		this.woundRolls = new WoundRolls(this.hitRolls.totalSuccesses, formData);
 		//space for more wound rolls stuffs
 
 
-		this.saveRolls = new SaveRolls(
-			this.woundRolls.totalSuccesses, this.woundRolls.devastatingWounds, formData
-		);
-		this.damageOutput = this.saveRolls.totalSuccesses;
+		this.saveRolls = new SaveRolls(this.woundRolls.totalSuccesses, formData);
+		this.damageOutput = this.saveRolls.totalFails + this.woundRolls.devastatingWounds;
 		//space for more save rolls stuffs	
 	} 
 

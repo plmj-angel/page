@@ -6,32 +6,28 @@ export class WoundRolls extends RollsGroup {
 	woundMod: number;
 	devastatingWoundTicked: boolean;
 	devastatingWounds: number = 0;
-	lethalHits: number = 0;
 
-    constructor(totalHits: number, automaticSuccesses: number, userInputValues: UserInput) {
+    constructor(totalHits: number, userInputValues: UserInput) {
         super();
-		this.lethalHits = automaticSuccesses;
 		this.woundMod = userInputValues.woundMod;
         this.threshold = this.getWoundThreshold(userInputValues.strength, userInputValues.toughness);
 		
         this.totalRolls = totalHits;
-		if (this.lethalHits > 0) this.totalRolls -= this.lethalHits;
 		if (this.totalRolls < 0) {
 			throw new Error (`Somehow angel messed up the code and the wound roll is attempting to roll a negative ammount. ${this.totalRolls} to be precise...`);
 		}
 		
 		this.devastatingWoundTicked = userInputValues.devastWound;
-        this.getWoundRollSuccesses(this.devastatingWoundTicked, this.lethalHits);
+        this.getWoundRollSuccesses(this.devastatingWoundTicked);
 		this.totalFails = this.failValues.length;
 		this.successValuesLength = this.successValues.length;
 		this.failValuesLength = this.failValues.length;
 
 		this.totalSuccesses = this.successValuesLength;
-		this.totalSuccesses += this.lethalHits;
 		this.totalSuccesses += this.devastatingWounds;
     }
 
-    getWoundRollSuccesses(devastatingWoundTicked: boolean, lethalHits: number): void {
+    getWoundRollSuccesses(devastatingWoundTicked: boolean): void {
         this.successValues = this.simulateRolls(this.totalRolls, (rollResult) => {
 			if (devastatingWoundTicked && rollResult === 6) {
 				this.devastatingWounds++;
