@@ -22,7 +22,7 @@ export class TurnManager {
 		//space for more wound rolls stuffs
 
 
-		this.saveRolls = new SaveRolls(this.woundRolls.successValuesLength, formData);
+		this.saveRolls = new SaveRolls(this.woundRolls.successValuesLength+ this.additionalSaveRolls, formData);
 		this.damageOutput = this.saveRolls.totalFails + this.woundRolls.devastatingWounds;
 		//space for more save rolls stuffs	
 	} 
