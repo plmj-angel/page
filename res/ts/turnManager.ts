@@ -18,7 +18,7 @@ export class TurnManager {
 		this.additionalSaveRolls = this.hitRolls.lethalHits;
 		//space for more hit rolls stuffs
 
-		this.woundRolls = new WoundRolls(this.hitRolls.totalSuccesses, formData);
+		this.woundRolls = new WoundRolls(this.hitRolls.successValuesLength, formData);
 		//space for more wound rolls stuffs
 
 

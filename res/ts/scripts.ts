@@ -48,6 +48,7 @@ function clickRollBtn(): void {
 	calculatedData.hitRolls = turnResults.hitRolls;
 	calculatedData.woundRoll = turnResults.woundRolls;
 	calculatedData.saveRoll = turnResults.saveRolls;
+	calculatedData.totalWounds = turnResults.damageOutput;
 	calculatedData.mainUnitAttack = mainUnitAttack;
 	calculatedData.mainUnitAttackResults = mainUnitAttackResults
 	calculatedData.additionalUnitAttack = additionalUnitAttack;
