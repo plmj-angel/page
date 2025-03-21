@@ -14,7 +14,7 @@ export class TurnManager {
 
 	constructor(formData: UserInput) {
 		this.hitRolls = new HitRolls(formData);
-		this.woundsToRoll = this.hitRolls.totalSuccesses;
+		this.woundsToRoll = this.hitRolls.successValuesLength;
 		this.additionalSaveRolls = this.hitRolls.lethalHits;
 		//space for more hit rolls stuffs
 
@@ -22,7 +22,7 @@ export class TurnManager {
 		//space for more wound rolls stuffs
 
 
-		this.saveRolls = new SaveRolls(this.woundRolls.totalSuccesses, formData);
+		this.saveRolls = new SaveRolls(this.woundRolls.successValuesLength, formData);
 		this.damageOutput = this.saveRolls.totalFails + this.woundRolls.devastatingWounds;
 		//space for more save rolls stuffs	
 	} 
