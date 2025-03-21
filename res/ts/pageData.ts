@@ -83,4 +83,4 @@ function parseUserInput(): UserInputSchema {
 }
 
 //idr what this is...
-//lethalhits: bool, crititalHits: number, reRolls: string, sustainHits: number, critHitRolls: string 
+//crititalHits: number, reRolls: string, sustainHits: number, critHitRolls: string, critWounds: number
