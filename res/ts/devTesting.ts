@@ -31,9 +31,7 @@ class DevTestProfile implements UserInputSchema {
 export function writeTestValuesToPage(): void {
 	const devTestValues = new DevTestProfile();
 	let TestValueKey: keyof typeof devTestValues;
-	console.log(devTestValues);
 	for (TestValueKey in devTestValues) {
-		console.log(TestValueKey);
 		const element = document.getElementById(TestValueKey);
 		if (element) {
 			const inputElement = element as HTMLInputElement;;
