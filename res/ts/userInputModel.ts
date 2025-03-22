@@ -29,7 +29,3 @@ export interface UserInputSchema {
 export interface userInputValue {
 	[key: string]: string | boolean | number;
 }
-
-export interface FieldValues {
-	[key: string]: string | boolean;
-}
