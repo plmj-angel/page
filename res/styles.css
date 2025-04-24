@@ -23,6 +23,14 @@
 	  opacity: 1;
 	}
 
+	#chartLabel {
+		padding-top: 16px;
+	}
+
+	#resultObj {
+		padding-top: 40px;
+	}
+
 	.field-error {
 		color: red;
 		font-size: 0.85em;

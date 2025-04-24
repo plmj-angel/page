@@ -5,6 +5,7 @@ import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
 import { writeTestValuesToPage } from "./devTesting";
 import { TurnManager } from "./turnManager";
+import Chart from 'chart.js/auto';
 
 document.addEventListener("DOMContentLoaded", () => {
 	startUserInputValidatation();
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 });
 
+let resultsChart: Chart | null = null;
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
 	const turnResults = new TurnManager(userInputData);
@@ -59,6 +61,12 @@ function clickRollBtn(): void {
 	addResultsToGlobalWindow(calculatedData);
 
 	writeToTestArea(calculatedData, "testArea");
+
+
+	if (resultsChart) {
+		resultsChart.destroy();
+	  }
+	chartResults(calculatedData);
 	///////////////////////////////////////////////////////////////
 }
 
@@ -71,7 +79,58 @@ function getTotalWounds(fails: number, damage: number): number {
 }
 
 
+function chartResults(resultData: Record<string, any>): void {
+	const chartArea = document.getElementById("chartCanvas") as HTMLCanvasElement;
 
+	resultsChart = new Chart(chartArea, {
+		type: 'bar',
+    	data: {
+    	    labels: [
+				'Total Wounds Inflicted', 
+				'Main Unit Models Killed', 
+				'Additional Unit Models Killed'
+			],
+    	    datasets: [{
+    	        label: 'Turn Results (test)',
+    	        data: [
+					resultData.totalWounds, 
+					resultData.mainUnitAttackResults.modelsKilled, 
+					resultData.additionalUnitAttackResults.modelsKilled
+				], 
+    	        borderWidth: 1
+    	    }]
+    	},
+    	options: {
+    	    responsive: true,
+    	    scales: {
+    	        y: {
+    	            beginAtZero: true
+    	        }
+    	    },
+			plugins: {
+				tooltip: {
+				  callbacks: {
+					label: function(context) {
+					  const label = context.label || '';
+					  const value = context.parsed.y; // `parsed.y` for bar chart
+			
+					  switch (label) {
+						case 'Total Wounds Inflicted':
+						  return `Wounds inflicted by attacker: ${value}`;
+						case 'Main Unit Models Killed':
+						  return `Models Killed: ${value}`;
+						case 'Additional Unit Models Killed':
+						  return `Models Killed: ${value}`;
+						default:
+						  return `${label}: ${value}`;
+					  }
+					}
+				  }
+				}
+			  }
+    	}
+	});
+}
 
 
 
