@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let resultsChart = new ResultsChart();
-const simulationRuns = 15;
 
 function getSimulationQuantity(): number {
 	let inputElement = document.querySelector("#simulations") as HTMLInputElement;
