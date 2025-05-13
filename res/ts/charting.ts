@@ -22,11 +22,11 @@ export class ResultsChart {
 					'Additional Unit Models Killed'
 				],
 				datasets: [{
-					label: 'Turn Results (test)',
+					label: 'Average Simulation Results',
 					data: [
-						resultData.totalWounds, 
-						resultData.mainUnitAttackResults.modelsKilled, 
-						resultData.additionalUnitAttackResults.modelsKilled
+						resultData.woundsInflicted, 
+						resultData.mainModelsKilled, 
+						resultData.additionalModelsKilled
 					], 
 					borderWidth: 1
 				}]
