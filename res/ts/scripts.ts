@@ -5,7 +5,7 @@ import { AdditionalUnitClass } from "./UnitGroups/additionalUnits";
 import { LeaderUnitClass } from "./UnitGroups/leaderSoloUnit";
 import { writeTestValuesToPage } from "./devTesting";
 import { TurnManager } from "./turnManager";
-import Chart from 'chart.js/auto';
+import { ResultsChart } from "./charting";
 
 document.addEventListener("DOMContentLoaded", () => {
 	startUserInputValidatation();
@@ -22,12 +22,37 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 });
 
-let resultsChart: Chart | null = null;
+let resultsChart = new ResultsChart();
+const simulationRuns = 15;
+
+function getSimulationQuantity(): number {
+	let inputElement = document.querySelector("#simulations") as HTMLInputElement;
+	return Number(inputElement.value); 
+}
+
 function clickRollBtn(): void {
 	const userInputData = new UserInput();
+	const simulationResults = simulateTurns(getSimulationQuantity(), userInputData);
+	console.log(simulationResults);
+
+	//////////////////////////////////////////////////////////////
+	//resultsChart.chartResults(calculatedData);
+	//writeToTestArea(calculatedData, "testArea");
+	///////////////////////////////////////////////////////////////
+}
+
+
+
+function simulateTurns(simulationQuantity: number, userInputData: UserInput): Record<string, any> [] {
+	const allResults = [];
+	for (let i = 0; i < simulationQuantity; i++) {
+		allResults.push(simulateTurn(userInputData));
+	}
+	return allResults;
+}
+
+function simulateTurn(userInputData: UserInput): Record<string, any> {
 	const turnResults = new TurnManager(userInputData);
-
-
 	const woundsInflicted: number = turnResults.damageOutput;
 	//apply wounds to unit
 	const totalWoundsInflicted: number = getTotalWounds(woundsInflicted, userInputData.damage);
@@ -43,8 +68,6 @@ function clickRollBtn(): void {
 		additionalUnitAttackResults.attackWoundsRemaining, userInputData.damage
 	);
 
-	
-
 	//testing values/////////////////////////////////////////////////
 	let calculatedData: Record<string, any> = {};
 	calculatedData.hitRolls = turnResults.hitRolls;
@@ -57,17 +80,8 @@ function clickRollBtn(): void {
 	calculatedData.additionalUnitAttackResults = additionalUnitAttackResults;
 	calculatedData.leaderAttack = leaderAttack;
 	calculatedData.leaderAttackResults = leaderAttackResults;
-	console.log(userInputData);
 	addResultsToGlobalWindow(calculatedData);
-
-	writeToTestArea(calculatedData, "testArea");
-
-
-	if (resultsChart) {
-		resultsChart.destroy();
-	  }
-	chartResults(calculatedData);
-	///////////////////////////////////////////////////////////////
+	return calculatedData;
 }
 
 function loadTestValues(): void {
@@ -77,64 +91,6 @@ function loadTestValues(): void {
 function getTotalWounds(fails: number, damage: number): number {
 	return fails * damage;
 }
-
-
-function chartResults(resultData: Record<string, any>): void {
-	const chartArea = document.getElementById("chartCanvas") as HTMLCanvasElement;
-
-	resultsChart = new Chart(chartArea, {
-		type: 'bar',
-    	data: {
-    	    labels: [
-				'Total Wounds Inflicted', 
-				'Main Unit Models Killed', 
-				'Additional Unit Models Killed'
-			],
-    	    datasets: [{
-    	        label: 'Turn Results (test)',
-    	        data: [
-					resultData.totalWounds, 
-					resultData.mainUnitAttackResults.modelsKilled, 
-					resultData.additionalUnitAttackResults.modelsKilled
-				], 
-    	        borderWidth: 1
-    	    }]
-    	},
-    	options: {
-    	    responsive: true,
-    	    scales: {
-    	        y: {
-    	            beginAtZero: true
-    	        }
-    	    },
-			plugins: {
-				tooltip: {
-				  callbacks: {
-					label: function(context) {
-					  const label = context.label || '';
-					  const value = context.parsed.y; // `parsed.y` for bar chart
-			
-					  switch (label) {
-						case 'Total Wounds Inflicted':
-						  return `Wounds inflicted by attacker: ${value}`;
-						case 'Main Unit Models Killed':
-						  return `Models Killed: ${value}`;
-						case 'Additional Unit Models Killed':
-						  return `Models Killed: ${value}`;
-						default:
-						  return `${label}: ${value}`;
-					  }
-					}
-				  }
-				}
-			  }
-    	}
-	});
-}
-
-
-
-
 
 
 //for Nacho testing
