@@ -33,10 +33,13 @@ function clickRollBtn(): void {
 	const userInputData = new UserInput();
 	const simulationResults = simulateTurns(getSimulationQuantity(), userInputData);
 	console.log(simulationResults);
-	const simulationAverages = getSimulationProbabilities(simulationResults);
+	const simulationAverages = resultsChart.getSimulationAverages(simulationResults);
 	console.log(simulationAverages);
 	resultsChart.chartResults(simulationAverages);
 
+	resultsChart.getSimulationProbabilities(
+		simulationAverages.mainModelsKilled, userInputData.defenseModels, simulationResults
+	);
 	//////////////////////////////////////////////////////////////
 	//resultsChart.chartResults(calculatedData);
 	//writeToTestArea(calculatedData, "testArea");
@@ -53,33 +56,6 @@ function simulateTurns(simulationQuantity: number, userInputData: UserInput): Re
 	return allResults;
 }
 
-function getSimulationProbabilities(simulationResults: Record<string, any>[]): Record<string, any> {
-	const simulationAverages = {
-		woundsInflicted : 0,
-		mainModelsKilled : 0,
-		additionalModelsKilled: 0
-	}
-
-	let totalModelsKilled = 0;
-	let totalWoundsInflicted = 0;
-	let totalAdditionalUnitsKilled = 0;
-	simulationResults.forEach((simulationResult) => {
-		totalWoundsInflicted += simulationResult.totalWounds;
-		totalModelsKilled += simulationResult.mainUnitAttackResults.modelsKilled;
-		totalAdditionalUnitsKilled += simulationResult.additionalUnitAttackResults.modelsKilled;
-	});
-
-
-	simulationAverages.woundsInflicted = totalWoundsInflicted/simulationResults.length;
-	simulationAverages.mainModelsKilled = totalModelsKilled/simulationResults.length;
-	simulationAverages.additionalModelsKilled = totalAdditionalUnitsKilled/simulationResults.length;
-
-	return simulationAverages;
-}
-
-function getAverage(rawTotal: number, interations: number): number {
-	return rawTotal/interations;
-}
 
 function simulateTurn(userInputData: UserInput): Record<string, any> {
 	const turnResults = new TurnManager(userInputData);

@@ -2,9 +2,9 @@ import { UserInputSchema } from "./userInputModel";
 
 class DevTestProfile implements UserInputSchema {
 	attackModels = 5;
-	attacks = 5;
-	skill = 3;
-	strength = 4;
+	attacks = 6;
+	skill = 2;
+	strength = 5;
 	ap = 3;
 	damage = 1;
 	hitMod = 0;
@@ -14,7 +14,7 @@ class DevTestProfile implements UserInputSchema {
 	woundCrit = 0;
 	woundRoll = "NONE";
 	woundReroll = "NONE";
-	defenseModels = 10;
+	defenseModels = 15;
 	toughness = 3;
 	save = 4;
 	invulnrable = 6;
@@ -24,7 +24,7 @@ class DevTestProfile implements UserInputSchema {
 	saveReroll = 0;
 	feelNoPain = 0;
 	addUnits = 2;
-	addUnitsWounds = 2;
+	addUnitsWounds = 1;
 	leaderWounds = 6
 }
 
